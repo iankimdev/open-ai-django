@@ -1,0 +1,26 @@
+scripts:
+  server: cd django && python manage.py runserver
+  migrate: cd django && python manage.py migrate
+  freeze: venv/bin/python -m pip freeze
+  watch: npx tailwindcss -i ./django/static/tailwind/tailwind-input.css -o ./django/static/css/output.css --watch
+  installs:
+    - venv/bin/pip-compile django/requirements/requirements.in -o django/requirements.txt
+    - venv/bin/python -m pip install -r django/requirements.txt
+    - npm install
+  win_installs:
+    - pip-compile django/requirements/requirements.in -o django/requirements.txt
+    - python -m pip install -r django/requirements.txt
+    - npm install
+  win_freeze: python -m pip freeze
+  vendor_pull:
+    - rm -rf django/static/vendor
+    - mkdir -p django/static/vendor/htmx/
+    - mkdir -p django/static/vendor/flowbite/
+    - curl -L https://unpkg.com/htmx.org@1.8.2 -o ./django/static/vendor/htmx/htmx.min.js
+    - cp ./node_modules/flowbite/dist/flowbite.min.js ./django/static/vendor/flowbite/flowbite.min.js
+  build: docker build -f Dockerfile -t micro-ecommerce .
+  docker_dev: docker run --env-file .env-dev -p 8001:8000 --rm --name micro-ecommerce-dev -it micro-ecommerce
+  docker_prod: docker run --env-file .env-prod -p 8002:8000 --rm --name micro-ecommerce-prod -it micro-ecommerce
+  build_push:
+    - docker build --platform=linux/amd64 -f Dockerfile -t codingforentrepreneurs/micro-ecommerce .
+    - docker push codingforentrepreneurs/micro-ecommerce --all-tags
