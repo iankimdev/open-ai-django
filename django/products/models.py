@@ -3,7 +3,6 @@ from django.conf import settings
 from django.utils import timezone
 # Create your models here.
 class Product(models.Model):
-    
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     # stripe_product_id = 
     name = models.CharField(max_length=120)
@@ -19,7 +18,7 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if self.price != self.og_price:
 
-            # price changed
+            # tracking price changed
             self.og_price = self.price
             # trigger an API request for the price
             self.stripe_price = int(self.price * 100)
