@@ -20,4 +20,5 @@ def product_create_view(request):
 
 
 def product_list_view(request):
-    return render(request, 'products/list.html', {})
+    object_list = Product.objects.all()
+    return render(request, 'products/list.html', {"object_list":object_list})
