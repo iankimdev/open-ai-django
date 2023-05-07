@@ -13,6 +13,11 @@ def product_create_view(request):
             obj.user = request.user
             obj.save()
             return redirect('/products/create/')
-        form.add_error(None, "User must be logged in")
+        # else:
+        form.add_error(None, "User must be logged in") 
     context['form'] = form
     return render(request, 'products/create.html', context)
+
+
+def product_list_view(request):
+    return render(request, 'products/list.html', {})
