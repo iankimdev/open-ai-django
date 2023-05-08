@@ -2,7 +2,7 @@ scripts:
   server: cd django && python manage.py runserver
   migrate: cd django && python manage.py migrate
   freeze: venv/bin/python -m pip freeze
-  watch: npx tailwindcss -i ./django/static/tailwind/tailwind-input.css -o ./django/static/css/output.css --watch
+  watch: npx tailwindcss@3.2.7 -i ./django/static/tailwind/tailwind-input.css -o ./django/static/css/output.css --watch
 
   installs:
     - venv/bin/pip-compile django/requirements/requirements.in -o django/requirements.txt
