@@ -41,7 +41,7 @@ class ProductAttachment(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     file = models.FileField(upload_to=handle_product_attachment_upload, storage=protected_storage)
     handle = models.SlugField(unique=True)
-    is_free = models.BooleanField(default=False)
+    download_available = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
