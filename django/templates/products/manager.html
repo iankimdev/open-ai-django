@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
+<form method="POST" action=".">
+  {% csrf_token %} 
+  <!-- ProductUpdateForm-->
+  {{ form.as_p }}
+  {{formset.management_form}}
+  <div>
+    <!-- ProductAttachmentModelFormSet -->
+    {% for form in formset %}
+    {{ form.as_p }}
+    {% endfor %} 
+
+  </div>
+  <button type="submit" class="btn-submit mt-2">Submit</button>
+</form>
+
+{% endblock %}
