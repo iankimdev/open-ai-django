@@ -47,9 +47,19 @@ def product_manage_detail_view(request, handle=None):
 
         #  Product - ProductAttachment
         for _form in formset:
-            attachment_obj = _form.save(commit=False)
-            attachment_obj.product = instance
-            attachment_obj.save()
+            is_delete = _form.cleaned_data.get("DELETE")
+            try:
+                attachment_obj = _form.save(commit=False)
+            except:
+                attachment_obj = None
+            if is_delete:
+                if attachment_obj is not None:
+                    if attachment_obj.pk:
+                        attachment_obj.delete()
+            else:
+                if attachment_obj is not None:
+                    attachment_obj.product = instance
+                    attachment_obj.save()
         return redirect(obj.get_manage_url())
 
     context['form'] = form
@@ -68,10 +78,10 @@ def product_detail_view(request, handle=None):
 def product_attachment_download_view(request, handle=None, pk=None):
     #attachment = ProductAttachment.objects.all().first()
     attachment = get_object_or_404(ProductAttachment, product__handle=handle, pk=pk)
-    download_available = attachment.is_free or False
+    can_download = attachment.is_free or False
     if request.user.is_authenticated:
-        download_available = True
-    if download_available is False:
+        can_download = True
+    if can_download is False:
         return HttpResponseBadRequest()
     file = attachment.file.open(mode='rb')
     filename = attachment.file.name
