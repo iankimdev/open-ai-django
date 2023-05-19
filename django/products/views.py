@@ -15,7 +15,7 @@ def product_create_view(request):
         if request.user.is_authenticated:
             obj.user = request.user
             obj.save()
-            return redirect('/products/create/')
+            return redirect(obj.get_manage_url())
         # else:
         form.add_error(None, "User must be logged in") 
     context['form'] = form
@@ -36,6 +36,7 @@ def product_manage_detail_view(request, handle=None):
         return HttpResponseBadRequest()
     
     form = ProductUpdateForm(request.POST or None, request.FILES or None, instance = obj)
+    attachments = ProductAttachment.objects.filter(product=obj)
     formset = ProductAttachmentInlineFormSet(request.POST or None, request.FILES or None, queryset=attachments)
     
     # Product
@@ -49,6 +50,7 @@ def product_manage_detail_view(request, handle=None):
             attachment_obj = _form.save(commit=False)
             attachment_obj.product = instance
             attachment_obj.save()
+        return redirect(obj.get_manage_url())
 
     context['form'] = form
     context['formset'] = formset
