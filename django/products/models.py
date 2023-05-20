@@ -25,6 +25,9 @@ class Product(models.Model):
     @property
     def display_name(self):
         return self.name
+    @property
+    def display_price(self):
+        return self.price
     
     def __str__(self):
         return self.display_name
