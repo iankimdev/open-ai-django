@@ -6,5 +6,5 @@ app_name='purchases'
 urlpatterns = [
     path('start/', views.purchase_start_view, name="start"),
     path('success/', views.purchase_success_view, name='success'),
-    path('stopped/', views.purchase_stopped_view, name='stopped'),
+    path('stopped/', views.purchase_stopped_view, name='cancel'),
 ]
