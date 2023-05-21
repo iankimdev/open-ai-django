@@ -1,5 +1,6 @@
 # To use Neon with Django, you have to create a Project on Neon and specify the project connection settings in your settings.py in the same way as for standalone Postgres.
-'''
+
+
 
 from core.env import config
 import dj_database_url
@@ -7,6 +8,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATABASE_URL= config("DATABASE_URL", default=None)
+print(DATABASE_URL)
 if DATABASE_URL is not None:
     DATABASES = {
     'default': dj_database_url.config(
@@ -15,6 +17,8 @@ if DATABASE_URL is not None:
         conn_health_checks=True
     )
 }
+
+
 '''
 from core.env import config
 import dj_database_url
@@ -47,3 +51,5 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
+'''
