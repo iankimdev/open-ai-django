@@ -1,7 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 # Create your views here.
-import random
 from products.models import Product
 from .models import Purchase
 from django.urls import reverse

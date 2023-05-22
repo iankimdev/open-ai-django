@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 import openai, os, requests
 from django.core.files.base import ContentFile
 from .models import DalleImage
@@ -23,11 +24,20 @@ def generate_image_from_txt(request):
         img_file = ContentFile(img_response.content) #Bytes => Images
         #print(img_file)
         count = DalleImage.objects.count() + 1
+        #fname = f"image-{count}.jpg"
         fname = f"image-{count}.jpg"
-
+        
         obj = DalleImage(phrase=user_input)
         obj.ai_image.save(fname, img_file)
         obj.save()
-        
-
     return render(request, "home.html", {"object":obj})
+
+
+def download_image(request, image_id):
+    image = get_object_or_404(DalleImage, id=image_id)
+    file_path = image.ai_image.path
+
+    with open(file_path, "rb") as f:
+        response = HttpResponse(f.read(), content_type="image/jpeg")
+        response["Content-Disposition"] = f"attachment; filename={image.ai_image.name}"
+        return response

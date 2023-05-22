@@ -16,6 +16,9 @@
     {{object.phrase}}
     <br />
     <img src="{{ object.ai_image.url }}" alt="{{ object.phrase }}" />
+    {% if object.get_download_url %}
+    <a href="{{ object.get_download_url }}" class="btn mt-3">Download Image</a>
+  {% endif %}
   </div>
   {% endif %}
 </div>
