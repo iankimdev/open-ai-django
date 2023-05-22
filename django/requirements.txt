@@ -6,6 +6,12 @@
 #
 asgiref==3.6.0
     # via django
+boto3==1.26.137
+    # via -r django/requirements/requirements.in
+botocore==1.29.137
+    # via
+    #   boto3
+    #   s3transfer
 certifi==2023.5.7
     # via requests
 charset-normalizer==3.1.0
@@ -16,21 +22,36 @@ django==4.1.8
     # via
     #   -r django/requirements/requirements.in
     #   dj-database-url
+    #   django-storages
+django-storages==1.13.2
+    # via -r django/requirements/requirements.in
 idna==3.4
     # via requests
+jmespath==1.0.1
+    # via
+    #   boto3
+    #   botocore
 pillow==9.5.0
     # via -r django/requirements/requirements.in
 psycopg2-binary==2.9.6
     # via -r django/requirements/requirements.in
+python-dateutil==2.8.2
+    # via botocore
 python-decouple==3.8
     # via -r django/requirements/requirements.in
 requests==2.30.0
     # via stripe
+s3transfer==0.6.1
+    # via boto3
+six==1.16.0
+    # via python-dateutil
 sqlparse==0.4.4
     # via django
 stripe==5.4.0
     # via -r django/requirements/requirements.in
 typing-extensions==4.5.0
     # via dj-database-url
-urllib3==2.0.2
-    # via requests
+urllib3==1.26.15
+    # via
+    #   botocore
+    #   requests

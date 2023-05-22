@@ -2,13 +2,23 @@
 <div
   class="flex flex-col items-center justify-center px-6 mx-auto md:h-screen lg:py-0"
 >
-  <div class="text-center sm:max-w-md w-full mx-auto">
-    <h1
-      class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
-    >
-      eCommerce
-    </h1>
+<div class="container mt-3">
+  <h1>This is Dalle</h1>
+  <form method="post" autocomplete="off">
+    {% csrf_token %}
+    <input type="text" class="form-control" name="user_input" />
+    <button type="submit" class="btn mt-3">Submit</button>
+  </form>
+
+  <br />
+  {% if object %}
+  <div>
+    {{object.phrase}}
+    <br />
+    <img src="{{ object.ai_image.url }}" alt="{{ object.phrase }}" />
   </div>
+  {% endif %}
+</div>
 </div>
 
 {% endblock %}
