@@ -4,11 +4,13 @@ import openai, os, requests
 from django.core.files.base import ContentFile
 from .models import DalleImage
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from core.env import config
 # Create your views here.
 api_key= config("OPENAI_KEY", default=None)
 #api_key = os.getenv("OPENAI_KEY")
 openai.api_key = api_key
+
 @csrf_exempt
 def generate_image_from_txt(request):
     obj = None
@@ -30,8 +32,7 @@ def generate_image_from_txt(request):
         obj = DalleImage(phrase=user_input)
         obj.ai_image.save(fname, img_file)
         obj.save()
-    return render(request, "home.html", {"object":obj})
-
+    return render(request, "dalle.html", {"object":obj})
 
 def download_image(request, image_id):
     image = get_object_or_404(DalleImage, id=image_id)

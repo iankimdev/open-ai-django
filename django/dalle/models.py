@@ -10,4 +10,4 @@ class DalleImage(models.Model):
         return str(self.phrase)
     
     def get_download_url(self):
-        return reverse("dalle_images:download_image", args=[self.id])
+        return reverse("dalle:download_image", args=[self.id])
