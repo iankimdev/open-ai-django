@@ -1,9 +1,16 @@
 {% extends "base.html" %}
+
 {% block content %}
-  <h1>Purchases List</h1>
-  <ul>
-    {% for purchase in purchases %}
-      <li>{{ purchase.product.name }}, {{ purchase.user }}, {{ purchase.timestamp }}</li>
-    {% endfor %}
-  </ul>
+<div class="flex flex-col">
+  <div class="my-20">
+    <h1 class="text-2xl font-bold">Purchases List (Newest)</h1>
+  </div>
+  <div class="my-20">
+    <ul>
+      {% for purchase in purchases reversed %}
+      <li class="mb-2">{{ purchase.product.name }}, {{ purchase.user }}, {{ purchase.timestamp }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
 {% endblock %}
