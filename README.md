@@ -11,10 +11,14 @@ git clone https://github.com/iankimdev/e-commerce.git
 `rav`를 사용하지 않으려면 `rav.yaml`을 열어 사용 가능한 명령어를 확인하십시오.
 
 _macOS/Linux Users_
-
 ```bash
+brew update
+brew install pyenv
 pyenv install 3.11.3
 pyenv local 3.11.3
+```
+
+```bash
 python3 -m venv venv
 source venv/bin/activate
 venv/bin/python -m pip install pip pip-tools rav --upgrade
