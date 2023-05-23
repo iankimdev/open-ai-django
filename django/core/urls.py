@@ -7,10 +7,11 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('', views.home_view),
+    path('', views.home_view),
     path('', include('dalle.urls')),
     path('products/', include('products.urls')),
     path('purchases/', include('purchases.urls')),
+    path('signup/', include('users.urls')),
     
 ]
 
