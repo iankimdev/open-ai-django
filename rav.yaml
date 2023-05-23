@@ -19,4 +19,3 @@ scripts:
     - mkdir -p django/static/vendor/flowbite/
     - curl -L https://unpkg.com/htmx.org@1.8.2 -o ./django/static/vendor/htmx/htmx.min.js
     - cp ./node_modules/flowbite/dist/flowbite.min.js ./django/static/vendor/flowbite/flowbite.min.js
-  

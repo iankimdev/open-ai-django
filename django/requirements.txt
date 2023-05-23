@@ -4,8 +4,16 @@
 #
 #    pip-compile --output-file=django/requirements.txt django/requirements/requirements.in
 #
+aiohttp==3.8.4
+    # via openai
+aiosignal==1.3.1
+    # via aiohttp
 asgiref==3.6.0
     # via django
+async-timeout==4.0.2
+    # via aiohttp
+attrs==23.1.0
+    # via aiohttp
 boto3==1.26.137
     # via -r django/requirements/requirements.in
 botocore==1.29.137
@@ -15,7 +23,9 @@ botocore==1.29.137
 certifi==2023.5.7
     # via requests
 charset-normalizer==3.1.0
-    # via requests
+    # via
+    #   aiohttp
+    #   requests
 dj-database-url==2.0.0
     # via -r django/requirements/requirements.in
 django==4.1.8
@@ -25,12 +35,24 @@ django==4.1.8
     #   django-storages
 django-storages==1.13.2
     # via -r django/requirements/requirements.in
+frozenlist==1.3.3
+    # via
+    #   aiohttp
+    #   aiosignal
 idna==3.4
-    # via requests
+    # via
+    #   requests
+    #   yarl
 jmespath==1.0.1
     # via
     #   boto3
     #   botocore
+multidict==6.0.4
+    # via
+    #   aiohttp
+    #   yarl
+openai==0.27.7
+    # via -r django/requirements/requirements.in
 pillow==9.5.0
     # via -r django/requirements/requirements.in
 psycopg2-binary==2.9.6
@@ -40,7 +62,9 @@ python-dateutil==2.8.2
 python-decouple==3.8
     # via -r django/requirements/requirements.in
 requests==2.30.0
-    # via stripe
+    # via
+    #   openai
+    #   stripe
 s3transfer==0.6.1
     # via boto3
 six==1.16.0
@@ -49,9 +73,13 @@ sqlparse==0.4.4
     # via django
 stripe==5.4.0
     # via -r django/requirements/requirements.in
+tqdm==4.65.0
+    # via openai
 typing-extensions==4.5.0
     # via dj-database-url
 urllib3==1.26.15
     # via
     #   botocore
     #   requests
+yarl==1.9.2
+    # via aiohttp
