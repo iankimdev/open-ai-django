@@ -11,8 +11,7 @@ urlpatterns = [
     path('', include('dalle.urls')),
     path('products/', include('products.urls')),
     path('purchases/', include('purchases.urls')),
-    path('signup/', include('users.urls')),
-    
+    path('users/', include('users.urls')),
 ]
 
 if settings.DEBUG:

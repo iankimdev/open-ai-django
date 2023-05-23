@@ -13,3 +13,7 @@ class SignUpForm(UserCreationForm):
         self.fields['email'].widget.attrs.update({'class': 'form-control', 'required': True})
         self.fields['password1'].widget.attrs.update({'class': 'form-control', 'required': True})
         self.fields['password2'].widget.attrs.update({'class': 'form-control', 'required': True})
+
+class SignInForm(forms.Form):
+    username = forms.CharField(label='Username', max_length=150)
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
