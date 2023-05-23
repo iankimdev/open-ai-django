@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .forms import SignUpForm, SignInForm
 
 def signup(request):
@@ -28,3 +28,7 @@ def signin(request):
     else:
         form = SignInForm()
     return render(request, 'signin.html', {'form': form})
+
+def signout(request):
+    logout(request)
+    return redirect('http://127.0.0.1:8000/')  # 로그아웃 후 리디렉션할 URL 설정

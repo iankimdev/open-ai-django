@@ -6,7 +6,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 from .forms import ProductForm, ProductUpdateForm, ProductAttachmentInlineFormSet
 from .models import Product, ProductAttachment
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def product_create_view(request):
     context = {}
     form = ProductForm(request.POST or None)
@@ -75,6 +77,7 @@ def product_detail_view(request, handle=None):
     context = {"object": obj, "is_owner": is_owner, "attachments":attachments}
     return render(request, 'products/detail.html', context)
 
+@login_required
 def product_attachment_download_view(request, handle=None, pk=None):
     #attachment = ProductAttachment.objects.all().first()
     attachment = get_object_or_404(ProductAttachment, product__handle=handle, pk=pk)
