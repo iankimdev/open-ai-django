@@ -71,10 +71,10 @@ def product_manage_detail_view(request, handle=None):
 def product_detail_view(request, handle=None):
     obj = get_object_or_404(Product, handle=handle)
     attachments = ProductAttachment.objects.filter(product=obj)
-    is_owner = False
+    is_purchased = False
     if request.user.is_authenticated:
-        is_owner = request.user.purchase_set.all().filter(product=obj, completed=True).exists()
-    context = {"object": obj, "is_owner": is_owner, "attachments":attachments}
+        is_purchased = request.user.purchase_set.all().filter(product=obj, completed=True).exists()
+    context = {"object": obj, "is_purchased": is_purchased, "attachments":attachments}
     return render(request, 'products/detail.html', context)
 
 @login_required

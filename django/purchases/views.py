@@ -79,6 +79,3 @@ def purchase_stopped_view(request):
 def purchase_list_view(request):
     purchases = Purchase.objects.all()
     return render(request, "purchases/list.html", {"purchases": purchases})
-def product_list_view(request):
-    object_list = Product.objects.all()
-    return render(request, 'products/list.html', {"object_list":object_list})

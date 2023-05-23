@@ -24,7 +24,7 @@
                     {% if attachment.is_free %}Free download {% endif %}
                 </td>
                 <td class="px-6 py-4 text-center">
-                    {% if is_owner or attachment.is_free %}
+                    {% if is_purhcased or attachment.is_free %}
                     <a href="{{ attachment.get_download_url }}" class="font-medium text-gray-900 hover:underline">Download</a> {% else %} Purchase to download
                     {% endif %}
                 </td>

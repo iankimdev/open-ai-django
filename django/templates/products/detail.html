@@ -10,15 +10,15 @@
         <p class="font-light text-gray-500 dark:text-gray-400">Deliver great service experiences fast - without the complexity of traditional ITSM solutions.Accelerate critical development work, eliminate toil, and deploy changes with ease, with a complete audit trail for every change.</p>
 
         
-        {% include 'products/attachments-table.html' with attachments=attachments is_owner=is_owner%}
+        {% include 'products/attachments-table.html' with attachments=attachments is_purchased=is_purchased%}
         
     </div>
 
     <div class="w-full md:w-1/4 space-y-4">
         <!-- sidebar -->
-
-        {% if is_owner %}
-        <p>You own this product.<p>
+        
+        {% if is_purchased %}
+        <p>You already purchased this product.<p>
         {% else %}
         <div>
             {% include 'purchases/buy-btn-form.html' with product=object %}
