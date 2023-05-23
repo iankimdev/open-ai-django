@@ -8,7 +8,7 @@ def signup(request):
         print(form.errors)
         if form.is_valid():
             form.save()
-            return redirect('http://127.0.0.1:8000/')  # 회원 가입 후 리다이렉트할 URL 설정
+            return redirect('http://127.0.0.1:8000/')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
@@ -31,4 +31,4 @@ def signin(request):
 
 def signout(request):
     logout(request)
-    return redirect('http://127.0.0.1:8000/')  # 로그아웃 후 리디렉션할 URL 설정
+    return redirect('http://127.0.0.1:8000/')
