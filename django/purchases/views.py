@@ -36,8 +36,8 @@ def purchase_start_view(request):
     if not cancel_path.startswith("/"):
         cancel_path = f"/{cancel_path}"
 
-    success_url = f"{BASE_ENDPOINT}/{success_path}"
-    cancel_url = f"{BASE_ENDPOINT}/{cancel_path}"
+    success_url = f"{BASE_ENDPOINT}{success_path}"
+    cancel_url = f"{BASE_ENDPOINT}{cancel_path}"
 
     checkout_session = stripe.checkout.Session.create(
         line_items = [
