@@ -3,10 +3,10 @@
   class="flex flex-col items-center justify-center px-6 mx-auto md:h-screen lg:py-0"
 >
 <div class="container mt-3">
-  <h1>This is Dalle</h1>
+  <h1>Create an Image with DALLE</h1>
   <form method="post" autocomplete="off">
     {% csrf_token %}
-    <input type="text" class="form-control" name="user_input" />
+    <input type="text" class="form-control" name="user_input" placeholder="ex) puppy"/>
     <button type="submit" class="btn mt-3">Submit</button>
   </form>
 
