@@ -15,7 +15,7 @@ _macOS/Linux Users_
 brew update
 brew install pyenv
 pyenv install 3.11.3
-pyenv local 3.11.3
+pyenv local 3.11.3(at local directory) or pyenv global 3.11.3
 ```
 
 ```bash
