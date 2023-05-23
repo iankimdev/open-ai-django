@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 # Create your views here.
 from django.contrib.auth.decorators import login_required
@@ -72,3 +73,12 @@ def purchase_stopped_view(request):
         del request.session['purchase_id']
         return HttpResponseRedirect(purchase.product.get_absolute_url())
     return HttpResponse("Stopped")
+
+
+@login_required
+def purchase_list_view(request):
+    purchases = Purchase.objects.all()
+    return render(request, "purchases/list.html", {"purchases": purchases})
+def product_list_view(request):
+    object_list = Product.objects.all()
+    return render(request, 'products/list.html', {"object_list":object_list})

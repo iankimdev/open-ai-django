@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Purchases List</h1>
+  <ul>
+    {% for purchase in purchases %}
+      <li>{{ purchase.product.name }}, {{ purchase.user }}, {{ purchase.timestamp }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
