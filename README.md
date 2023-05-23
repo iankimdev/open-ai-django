@@ -13,6 +13,8 @@ git clone https://github.com/iankimdev/e-commerce.git
 _macOS/Linux Users_
 
 ```bash
+pyenv install 3.11.3
+pyenv local 3.11.3
 python3 -m venv venv
 source venv/bin/activate
 venv/bin/python -m pip install pip pip-tools rav --upgrade
