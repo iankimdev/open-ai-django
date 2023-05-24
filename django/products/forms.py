@@ -8,6 +8,10 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'handle', 'price']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': input_css_class, 'placeholder': 'ex) puppy in space'}),
+            'handle': forms.TextInput(attrs={'class': input_css_class, 'placeholder': 'ex) puppy-in-space'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

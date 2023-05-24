@@ -46,7 +46,7 @@ def product_manage_detail_view(request, handle=None):
         instance = form.save(commit=False)
         instance.save()
         formset.save(commit=False)
-
+        
         #  Product - ProductAttachment
         for _form in formset:
             is_delete = _form.cleaned_data.get("DELETE")

@@ -7,18 +7,27 @@
   <form method="post" autocomplete="off">
     {% csrf_token %}
     <input type="text" class="form-control" name="user_input" placeholder="ex) puppy"/>
-    <button type="submit" class="btn mt-3">Submit</button>
+    <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Submit</button>
   </form>
 
   <br />
   {% if object %}
   <div>
-    {{object.phrase}}
+    <div class="font-serif text-lg text-gray-800">
+      Here is your "{{object.phrase}}"" photo by DALLE
+    </div>
+    
     <br />
     <img src="{{ object.ai_image.url }}" alt="{{ object.phrase }}" />
     {% if object.get_download_url %}
-    <a href="{{ object.get_download_url }}" class="btn mt-3">Download Image</a>
-  {% endif %}
+    <a href="{{ object.get_download_url }}" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Download Image</a>
+    {% endif %}
+  </div>
+
+  <div class="mt-10">
+    <a href="{% url 'products:create' %}" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+      Go to make a product with DALLE.
+    </a>
   </div>
   {% endif %}
 </div>

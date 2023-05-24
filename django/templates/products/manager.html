@@ -1,12 +1,20 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 
+
 <form method="POST" action="." enctype="multipart/form-data">
   {% csrf_token %} 
+
+  <div>
+    Update your DALLE Image (Click "Choose File" button)
+  </div>
   <!-- ProductUpdateForm-->
   <div>
     {{ form.as_p }}
   </div>
 
+  <div>
+    Update your DALLE Image as Attachment. (Click "Add Attachment" button)
+  </div>
   <div>
     {{formset.management_form}}
     <div id="attachments">
@@ -18,8 +26,8 @@
       {% endfor %} 
     </div>
   </div>
-  <button id="add-attachment-btn" class="btn-submit mt-2">Add attachment</button>
-  <button type="submit" class="btn-submit mt-2">Save</button>
+  <button id="add-attachment-btn" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Add attachment</button>
+  <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Save</button>
 </form>
 
 
