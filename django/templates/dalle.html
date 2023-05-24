@@ -3,7 +3,9 @@
   class="flex flex-col items-center justify-center px-6 mx-auto md:h-screen lg:py-0"
 >
 <div class="container mt-3">
-  <h1>Create an Image with DALLE</h1>
+  <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
+    <p class="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400"> CREATE AN IMAGE WITH DALLE</p>
+  </div>
   <form method="post" autocomplete="off">
     {% csrf_token %}
     <input type="text" class="form-control" name="user_input" placeholder="ex) puppy"/>
@@ -14,7 +16,7 @@
   {% if object %}
   <div>
     <div class="font-serif text-lg text-gray-800">
-      Here is your "{{object.phrase}}"" photo by DALLE
+      <p class="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400"> Here is your "{{object.phrase}}"" photo by DALLE </p>
     </div>
     
     <br />
@@ -26,7 +28,8 @@
 
   <div class="mt-10">
     <a href="{% url 'products:create' %}" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-      Go to make a product with DALLE.
+      <p class="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400"> 
+        Go to make a product with DALLE. </p>
     </a>
   </div>
   {% endif %}

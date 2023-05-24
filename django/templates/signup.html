@@ -1,7 +1,10 @@
 {% extends "base.html" %} 
 {% block content %}
-<div class="container mt-3">
-  <h1>Sign Up</h1>
+<div class="container mt-3 flex flex-col">
+  <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
+    <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white" > SIGN UP </h2>
+    <p class="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400"> Create an Account </p>
+  </div>
   <form method="post">
     {% csrf_token %}
     <div class="form-group">
@@ -21,7 +24,7 @@
         <input type="password" class="form-control" id="password2" name="password2" required>
     </div>
 
-    <button type="submit" class="btn btn-primary">Sign Up</button>
+    <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Sign Up</button>
   </form>
 
    <!-- Display form errors -->
