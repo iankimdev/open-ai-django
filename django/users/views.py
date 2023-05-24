@@ -28,7 +28,9 @@ def signin(request):
                 form.add_error(None, 'Invalid username or password')  # Add a form-level error message
     else:
         form = SignInForm()
+    # Add provider_login_url to the context
     return render(request, 'signin.html', {'form': form})
+
 
 def signout(request):
     logout(request)

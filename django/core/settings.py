@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'purchases',
     'dalle',
     'users',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -66,7 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'core.context_processors.vendor_files'
+                'core.context_processors.vendor_files',
             ],
         },
     },
