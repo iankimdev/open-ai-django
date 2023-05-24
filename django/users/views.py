@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignUpForm, SignInForm
+from django.urls import reverse
 
 def signup(request):
     if request.method == 'POST':
@@ -8,7 +9,7 @@ def signup(request):
         print(form.errors)
         if form.is_valid():
             form.save()
-            return redirect('http://127.0.0.1:8000/')
+            return redirect(reverse('users:signin'))
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
