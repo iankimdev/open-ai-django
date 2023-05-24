@@ -78,5 +78,8 @@ def purchase_stopped_view(request):
 
 @login_required
 def purchase_list_view(request):
-    purchases = Purchase.objects.all()
+    purchases = Purchase.objects.filter(completed=True)
     return render(request, "purchases/list.html", {"purchases": purchases})
+
+
+
