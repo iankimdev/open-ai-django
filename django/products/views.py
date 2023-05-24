@@ -1,13 +1,13 @@
 import mimetypes
 
-from django.http import FileResponse, HttpResponseBadRequest
+from django.http import FileResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
 from .forms import ProductForm, ProductUpdateForm, ProductAttachmentInlineFormSet
 from .models import Product, ProductAttachment
 from django.contrib.auth.decorators import login_required
-
+from dalle.models import DalleImage
 @login_required
 def product_create_view(request):
     context = {}
@@ -93,3 +93,44 @@ def product_attachment_download_view(request, handle=None, pk=None):
     response['Content-Type'] = content_type or 'application/octet-stream'
     response['Content-Disposition'] = f'attachment;filename={filename}'
     return response
+
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, "product_detail.html", {"product": product})
+
+
+
+import random
+import string
+def generate_handle():
+    # Generate a random alphanumeric handle
+    letters_digits = string.ascii_letters + string.digits
+    handle = ''.join(random.choice(letters_digits) for _ in range(8))
+    return handle
+
+@login_required
+def custom_order_view(request, phrase, id):
+    if request.method == 'POST':
+        phrase = phrase
+        id = id
+
+        # Retrieve the DalleImage object
+        dalle_image = get_object_or_404(DalleImage, id=id)
+
+        # Create the Product object
+        handle = generate_handle()  # Generate handle automatically
+        price = 9.99
+
+        product = Product.objects.create(
+            image=dalle_image.ai_image,
+            name=phrase,
+            handle=handle,
+            price=price
+        )
+        context = {
+            'product': product
+        }
+        return HttpResponseRedirect(product.get_absolute_url())
+
+    else:
+        return HttpResponseBadRequest("Invalid request method.")

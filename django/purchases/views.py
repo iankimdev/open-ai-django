@@ -20,12 +20,12 @@ def purchase_start_view(request):
         return HttpResponseBadRequest()
     
     handle = request.POST.get("handle")
-    obj = Product.objects.get(handle=handle)
-    stripe_price_id = obj.stripe_price_id
+    product = Product.objects.get(handle=handle)
+    stripe_price_id = product.stripe_price_id
     if stripe_price_id is None:
         return HttpResponseBadRequest()
     
-    purchase = Purchase.objects.create(user=request.user, product=obj)
+    purchase = Purchase.objects.create(user=request.user, product=product)
     request.session['purchase_id'] = purchase.id
     
     success_path = reverse("purchases:success")
@@ -51,6 +51,7 @@ def purchase_start_view(request):
         cancel_url=cancel_url
     )
     purchase.stripe_checkout_session_id = checkout_session.id
+    purchase.stripe_price = product.price
     purchase.save()
     return HttpResponseRedirect(checkout_session.url)
 
