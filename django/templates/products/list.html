@@ -7,7 +7,7 @@
       <p class="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400"> Explore the whole collection. </p>
     </div>
     <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-2">
-      {% for object in object_list %}
+      {% for object in object_list|dictsortreversed:"timestamp" %}
         {% include 'products/list-card.html' with object=object %}
       {% endfor %}
     </div>
