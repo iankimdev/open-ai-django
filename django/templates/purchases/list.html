@@ -3,15 +3,30 @@
 {% block content %}
 <div class="flex flex-col">
   <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
-    <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white" > LIST</h2>
+    <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">LIST</h2>
     <p class="font-light text-gray-500 lg:mb-4 sm:text-xl dark:text-gray-400">NEWEST</p>
   </div>
   <div class="my-20">
-    <ul>
-      {% for purchase in purchases reversed %}
-      <li class="font-light text-gray-500 lg:mb-4 sm:text-xl dark:text-gray-400">{{ purchase.product.name }}, {{ purchase.user }}, {{ purchase.timestamp }}</li>
-      {% endfor %}
-    </ul>
+    <table class="border-collapse mx-auto">
+      <thead>
+        <tr>
+          <th class="border border-gray-300 px-4 py-2">Name</th>
+          <th class="border border-gray-300 px-4 py-2">Handle</th>
+          <th class="border border-gray-300 px-4 py-2">User</th>
+          <th class="border border-gray-300 px-4 py-2">Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for purchase in purchases reversed %}
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">{{ purchase.product.name }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ purchase.product.handle }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ purchase.product.user }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ purchase.product.timestamp }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
 {% endblock %}
