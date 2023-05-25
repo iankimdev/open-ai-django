@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1>Delete Account</h1>
+    <p>Are you sure you want to delete your account?</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Delete</button>
+      <a href="{% url 'users:profile' %}" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Cancel</a>
+    </form>
+  </div>
+{% endblock %}

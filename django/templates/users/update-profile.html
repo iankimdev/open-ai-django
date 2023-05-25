@@ -24,12 +24,6 @@
                     <label class="small mb-1">Email:</label>
                         {{ user_form.email }}
                 </div>
-                <div class="form-group">
-                    <hr>
-                    <label class="small mb-1">Change Avatar:</label>
-                    {{ profile_form.avatar }}
-                </div>
-                <label class="small mb-1">Bio:</label> {{ profile_form.bio }}
             </div>
         </div>
         <br><br>
@@ -37,6 +31,7 @@
         <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Reset</button>
         <br><br>
         <a href="{% url 'users:password_change' %}" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2" >Change Password</a>
+        <a href="{% url 'users:delete_user' %}" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2" >Delete Account</a>
     </form>
 </div>
 {% endblock %}

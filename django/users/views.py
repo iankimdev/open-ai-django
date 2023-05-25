@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import SignUpForm, SignInForm, UpdateUserForm
-from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import DeleteView
 
 def signup(request):
     if request.method == 'POST':
@@ -56,9 +57,20 @@ def profile(request):
         user_form = UpdateUserForm(instance=request.user)
         #profile_form = UpdateProfileForm(instance=request.user.profile)
 
-    return render(request, 'users/update_profile.html', {'user_form': user_form}) #'profile_form': profile_form
+    return render(request, 'users/update-profile.html', {'user_form': user_form}) #'profile_form': profile_form
 
-class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+
+class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
     template_name = 'users/change_password.html'
     success_message = "Successfully Changed Your Password"
     success_url = reverse_lazy('users:signin')
+
+
+class DeleteUserView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = get_user_model()
+    template_name = 'users/user-delete.html'
+    success_url = reverse_lazy('users:signin')
+    success_message = "Your account has been deleted successfully"
+
+    def get_object(self, queryset=None):
+        return self.request.user
