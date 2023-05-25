@@ -3,11 +3,12 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import SignUpForm, SignInForm, UpdateUserForm
+from .forms import SignUpForm, SignInForm, UpdateUserForm, UpdateProfileForm
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import DeleteView
+
 
 def signup(request):
     if request.method == 'POST':
@@ -44,20 +45,23 @@ def signout(request):
 
 @login_required
 def profile(request):
-    if request.method == 'POST':
-        user_form = UpdateUserForm(request.POST, instance=request.user)
-        #profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+    user = request.user
+    profile = user.profile
 
-        if user_form.is_valid() : # and profile_form.is_valid()
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=user)
+        profile_form = UpdateProfileForm(request.POST, instance=profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
-            #profile_form.save()
+            profile_form.save()
             messages.success(request, 'Your profile is updated successfully')
             return redirect(reverse('users:profile'))
     else:
-        user_form = UpdateUserForm(instance=request.user)
-        #profile_form = UpdateProfileForm(instance=request.user.profile)
+        user_form = UpdateUserForm(instance=user)
+        profile_form = UpdateProfileForm(instance=profile)
 
-    return render(request, 'users/update-profile.html', {'user_form': user_form}) #'profile_form': profile_form
+    return render(request, 'users/update-profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
 class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):

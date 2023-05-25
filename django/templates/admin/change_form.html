@@ -1,0 +1,24 @@
+{% extends "admin/change_form.html" %}
+
+{% block field_sets %}
+    {{ block.super }}
+    <fieldset class="module aligned {{ fieldset.classes }}">
+        <h2>{{ fieldset.name }}</h2>
+        {% for line in fieldset %}
+            {% for field in line %}
+                <div class="form-row{% if line.fields|length_is:'1' and field.is_readonly %} form-row-readonly{% endif %}{% if not field.field.widget.is_hidden %} field-box{% endif %}{% if field.field.required %} field-required{% endif %}{% if field.errors %} errors{% endif %}">
+                    {{ field.errors }}
+                    {{ field.label_tag }}
+                    <div class="field-box{% if field.field.widget.is_hidden %} hidden{% endif %}">
+                        {% if field.is_readonly %}
+                            <p>{{ field.contents }}</p>
+                        {% else %}
+                            {{ field.field }}
+                            {{ field.field.help_text }}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </fieldset>
+{% endblock %}
