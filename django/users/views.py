@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .forms import SignUpForm, SignInForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .forms import UpdateUserForm
 from django.contrib import messages
+from .forms import SignUpForm, SignInForm, UpdateUserForm
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 
 def signup(request):
     if request.method == 'POST':
@@ -55,3 +57,8 @@ def profile(request):
         #profile_form = UpdateProfileForm(instance=request.user.profile)
 
     return render(request, 'users/update_profile.html', {'user_form': user_form}) #'profile_form': profile_form
+
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'users/change_password.html'
+    success_message = "Successfully Changed Your Password"
+    success_url = reverse_lazy('users:signin')

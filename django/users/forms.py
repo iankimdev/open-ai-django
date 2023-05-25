@@ -20,7 +20,6 @@ class SignInForm(forms.Form):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
 
-
 class UpdateUserForm(forms.ModelForm):
     username = forms.CharField(max_length=100,required=True,widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
