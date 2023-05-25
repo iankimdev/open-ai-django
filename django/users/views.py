@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignUpForm, SignInForm
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from .forms import UpdateUserForm
+from django.contrib import messages
 
 def signup(request):
     if request.method == 'POST':
@@ -12,7 +15,7 @@ def signup(request):
             return redirect(reverse('users:signin'))
     else:
         form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'users/signup.html', {'form': form})
 
 def signin(request):
     if request.method == 'POST':
@@ -29,9 +32,26 @@ def signin(request):
     else:
         form = SignInForm()
     # Add provider_login_url to the context
-    return render(request, 'signin.html', {'form': form})
-
+    return render(request, 'users/signin.html', {'form': form})
 
 def signout(request):
     logout(request)
     return redirect('http://127.0.0.1:8000/')
+
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        #profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid() : # and profile_form.is_valid()
+            user_form.save()
+            #profile_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect(reverse('users:profile'))
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+        #profile_form = UpdateProfileForm(instance=request.user.profile)
+
+    return render(request, 'users/update_profile.html', {'user_form': user_form}) #'profile_form': profile_form

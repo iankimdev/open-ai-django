@@ -1,6 +1,7 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django import forms
+
 
 class SignUpForm(UserCreationForm):
     class Meta:
@@ -17,3 +18,12 @@ class SignUpForm(UserCreationForm):
 class SignInForm(forms.Form):
     username = forms.CharField(label='Username', max_length=150)
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
+
+
+
+class UpdateUserForm(forms.ModelForm):
+    username = forms.CharField(max_length=100,required=True,widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    class Meta:
+        model = User
+        fields = ['username', 'email']
