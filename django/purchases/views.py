@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
 # Create your views here.
 from django.contrib.auth.decorators import login_required
 from products.models import Product
@@ -32,12 +32,12 @@ def purchase_start_view(request):
     if not success_path.startswith("/"):
         success_path = f"/{success_path}"
     
-    cancel_path = reverse("purchases:cancel")
-    if not cancel_path.startswith("/"):
-        cancel_path = f"/{cancel_path}"
+    stopped_path = reverse("purchases:stopped")
+    if not stopped_path.startswith("/"):
+        stopped_path = f"/{stopped_path}"
 
     success_url = f"{BASE_ENDPOINT}{success_path}"
-    cancel_url = f"{BASE_ENDPOINT}{cancel_path}"
+    stopped_url = f"{BASE_ENDPOINT}{stopped_path}"
 
     checkout_session = stripe.checkout.Session.create(
         line_items = [
@@ -48,7 +48,7 @@ def purchase_start_view(request):
         ],
         mode="payment",
         success_url=success_url,
-        cancel_url=cancel_url
+        cancel_url=stopped_url
     )
     purchase.stripe_checkout_session_id = checkout_session.id
     purchase.stripe_price = product.price
@@ -81,9 +81,17 @@ def purchase_list_view(request):
     purchases = Purchase.objects.filter(completed=True)
     return render(request, "purchases/list.html", {"purchases": purchases})
 
-
-
 @login_required
 def purchase_myorder_view(request):
     purchases = Purchase.objects.filter(user=request.user, completed=True)
     return render(request, "purchases/my-order.html", {"purchases": purchases})
+
+@login_required
+def purchase_cancel_view(request, purchase_id):
+    purchase = get_object_or_404(Purchase, id=purchase_id, user=request.user, completed=True)
+    if request.method == 'POST':
+        purchase.completed = False
+        purchase.save()
+        
+    return redirect('purchases:my-orders')
+    
