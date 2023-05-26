@@ -8,4 +8,6 @@ urlpatterns = [
     path('success/', views.purchase_success_view, name='success'),
     path('stopped/', views.purchase_stopped_view, name='cancel'),
     path('list/', views.purchase_list_view, name='list'),
+    path('my-orders/', views.purchase_myorder_view, name='my-orders'),
+
 ]

@@ -83,3 +83,7 @@ def purchase_list_view(request):
 
 
 
+@login_required
+def purchase_myorder_view(request):
+    purchases = Purchase.objects.filter(user=request.user, completed=True)
+    return render(request, "purchases/my-order.html", {"purchases": purchases})
