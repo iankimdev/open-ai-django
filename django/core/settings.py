@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'dalle',
     'users',
     'django.contrib.sites',
+    'chatbot',
 ]
 
 MIDDLEWARE = [

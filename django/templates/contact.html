@@ -1,0 +1,35 @@
+
+{% extends "base.html" %} 
+{% block content %}
+
+<div class="container mt-3">
+  <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
+    <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white" > CONTACT </h2>
+  </div>
+  <p class="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400"> Write a message </p>
+  <form method="post">
+    {% csrf_token %}
+
+    <input type="text" class="form-control" name="text" />
+    <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Submit</button>
+  </form>
+
+  {% if response %}
+  <div>{{response}}</div>
+  {% endif %}
+
+
+  <!-- Display form errors -->
+  {% if form.errors %}
+  <div class="alert alert-danger mt-3">
+    <ul>
+      {% for field_errors in form.errors.values %}
+        {% for error in field_errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+</div>
+{% endblock %}

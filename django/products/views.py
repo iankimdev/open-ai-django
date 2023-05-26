@@ -7,20 +7,7 @@ from .forms import ProductForm, ProductUpdateForm, ProductAttachmentInlineFormSe
 from .models import Product, ProductAttachment
 from django.contrib.auth.decorators import login_required
 from dalle.models import DalleImage
-@login_required
-def product_create_view(request):
-    context = {}
-    form = ProductForm(request.POST or None)
-    if form.is_valid():
-        obj = form.save(commit=False)
-        if request.user.is_authenticated:
-            obj.user = request.user
-            obj.save()
-            return redirect(obj.get_manage_url())
-        # else:
-        form.add_error(None, "User must be logged in") 
-    context['form'] = form
-    return render(request, 'products/create.html', context)
+
 
 def product_list_view(request):
     object_list = Product.objects.all()
