@@ -7,25 +7,20 @@
     </div>
     <form method="post" autocomplete="off">
       {% csrf_token %}
-      <input type="text" class="form-control" name="user_input" placeholder="ex) puppy" />
+      <input type="text" class="form-control" name="user_input" placeholder="a close up, studio photographic portrait of a white siamese cat that looks curious, backlit ears" />
       <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Submit</button>
     </form>
 
     <br />
     {% if object %}
     <div>
-      <div class="font-serif text-lg text-gray-800">
-        <p class="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400"> Here is your "{{ object.phrase }}" photo by DALLE</p>
-      </div>
-
-      <br />
       <img src="{{ object.ai_image.url }}" alt="{{ object.phrase }}" />
 
       <div class="mt-10">
         <form method="post" action="{% url 'products:custom_order_view' object.phrase object.id %}">
           {% csrf_token %}
-          <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-4 px-4 border border-gray-400 rounded shadow mt-2">
-            <p class="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400">ORDER NOW</p>
+          <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">
+            "{{ object.phrase }}" ORDER NOW
           </button>
         </form>
       </div>

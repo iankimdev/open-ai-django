@@ -106,11 +106,12 @@ def generate_handle():
     letters_digits = string.ascii_letters + string.digits
     handle = ''.join(random.choice(letters_digits) for _ in range(8))
     return handle
-
+from urllib.parse import unquote
 @login_required
 def custom_order_view(request, phrase, id):
     if request.method == 'POST':
-        phrase = phrase
+        phrase = unquote(phrase)
+        print(phrase)
         id = id
 
         # Retrieve the DalleImage object
@@ -130,7 +131,6 @@ def custom_order_view(request, phrase, id):
             'product': product
         }
         return HttpResponseRedirect(product.get_absolute_url())
-
     else:
         return HttpResponseBadRequest("Invalid request method.")
 

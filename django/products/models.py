@@ -17,7 +17,7 @@ class Product(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     stripe_product_id = models.CharField(max_length=220, blank=True, null=True)
     image = models.ImageField(upload_to="products/", blank=True, null=True)
-    name = models.CharField(max_length=120)
+    name = models.CharField(max_length=200)
     handle = models.SlugField(unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=9.99)
     og_price = models.DecimalField(max_digits=10, decimal_places=2, default=9.99)

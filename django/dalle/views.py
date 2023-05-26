@@ -19,7 +19,7 @@ def generate_image_from_txt(request):
         user_input = request.POST.get("user_input")
         response = openai.Image.create(
             prompt = user_input,
-            size = '256x256',
+            size = '512x512',
         )
         #print(response)
         img_url = response["data"][0]["url"]
@@ -44,9 +44,6 @@ def download_image(request, image_id):
         response["Content-Disposition"] = f"attachment; filename={image.ai_image.name}"
         return response
 
-
-
-
 @login_required
 def generate_image_from_txt_for_custom(request):
     obj = None
@@ -54,7 +51,7 @@ def generate_image_from_txt_for_custom(request):
         user_input = request.POST.get("user_input")
         response = openai.Image.create(
             prompt = user_input,
-            size = '256x256',
+            size = "512x512",
         )
         #print(response)
         img_url = response["data"][0]["url"]
