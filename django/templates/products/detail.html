@@ -32,6 +32,15 @@
 
             </div>
         {% endif %}
+        {% if request.user.is_superuser %}
+            <div>
+                <a href="{% url 'products:update' handle=object.handle %}" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Update</a>
+            </div>
+            <div>
+                <a href="{% url 'products:delete' handle=object.handle %}" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Delete</a>
+            </div>
+        {% endif %}
+
 
         {% if form %}
             <div>

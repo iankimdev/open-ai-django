@@ -1,0 +1,17 @@
+<!-- delete.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Delete Product</h1>
+  <p>Are you sure you want to delete the following product?</p>
+
+  <p><strong>Name:</strong> {{ product.name }}</p>
+  <!-- Add more product details as needed -->
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Delete</button>
+  </form>
+
+{% endblock %}

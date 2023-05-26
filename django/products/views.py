@@ -1,8 +1,7 @@
 import mimetypes
 
-from django.http import FileResponse, HttpResponseBadRequest, HttpResponseRedirect
+from django.http import FileResponse, HttpResponseBadRequest, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
-
 # Create your views here.
 from .forms import ProductForm, ProductUpdateForm, ProductAttachmentInlineFormSet
 from .models import Product, ProductAttachment
@@ -27,18 +26,19 @@ def product_list_view(request):
     object_list = Product.objects.all()
     return render(request, 'products/list.html', {"object_list":object_list})
 
+@login_required
 def product_manage_detail_view(request, handle=None):
-    obj = get_object_or_404(Product, handle=handle)
-    attachments = ProductAttachment.objects.filter(product=obj)
+    product = get_object_or_404(Product, handle=handle)
+    attachments = ProductAttachment.objects.filter(product=product)
     is_manager = False
     if request.user.is_authenticated:
-        is_manager = obj.user == request.user
-    context = {"object": obj, "is_manager": is_manager}
+        is_manager = product.user == request.user
+    context = {"object": product, "is_manager": is_manager}  # Add "handle" to the context
     if not is_manager:
         return HttpResponseBadRequest()
     
-    form = ProductUpdateForm(request.POST or None, request.FILES or None, instance = obj)
-    attachments = ProductAttachment.objects.filter(product=obj)
+    form = ProductUpdateForm(request.POST or None, request.FILES or None, instance=product)
+    attachments = ProductAttachment.objects.filter(product=product)
     formset = ProductAttachmentInlineFormSet(request.POST or None, request.FILES or None, queryset=attachments)
     
     # Product
@@ -47,7 +47,7 @@ def product_manage_detail_view(request, handle=None):
         instance.save()
         formset.save(commit=False)
         
-        #  Product - ProductAttachment
+        # Product - ProductAttachment
         for _form in formset:
             is_delete = _form.cleaned_data.get("DELETE")
             try:
@@ -62,24 +62,23 @@ def product_manage_detail_view(request, handle=None):
                 if attachment_obj is not None:
                     attachment_obj.product = instance
                     attachment_obj.save()
-        return redirect(obj.get_manage_url())
+        return redirect(product.get_manage_url())
 
     context['form'] = form
     context['formset'] = formset
     return render(request, 'products/manager.html', context)
 
 def product_detail_view(request, handle=None):
-    obj = get_object_or_404(Product, handle=handle)
-    attachments = ProductAttachment.objects.filter(product=obj)
+    product = get_object_or_404(Product, handle=handle)
+    attachments = ProductAttachment.objects.filter(product=product)
     is_purchased = False
     if request.user.is_authenticated:
-        is_purchased = request.user.purchase_set.all().filter(product=obj, completed=True).exists()
-    context = {"object": obj, "is_purchased": is_purchased, "attachments":attachments}
+        is_purchased = request.user.purchase_set.all().filter(product=product, completed=True).exists()
+    context = {"object": product, "is_purchased": is_purchased, "attachments":attachments}
     return render(request, 'products/detail.html', context)
 
 @login_required
 def product_attachment_download_view(request, handle=None, pk=None):
-    #attachment = ProductAttachment.objects.all().first()
     attachment = get_object_or_404(ProductAttachment, product__handle=handle, pk=pk)
     can_download = attachment.is_free or False
     if request.user.is_authenticated:
@@ -134,3 +133,16 @@ def custom_order_view(request, phrase, id):
 
     else:
         return HttpResponseBadRequest("Invalid request method.")
+
+@login_required
+def product_delete_view(request, handle):
+    product = get_object_or_404(Product, handle=handle)
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("You don't have permission to access this page.")
+    
+    if request.method == 'POST':
+        product.delete()
+        return redirect('products:list')
+    
+    context = {'product': product}
+    return render(request, 'products/delete.html', context)
