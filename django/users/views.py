@@ -13,25 +13,25 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import JsonResponse
 from rest_framework import status
-
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from django.views.decorators.csrf import csrf_exempt
-
+import json
 @csrf_exempt
-@api_view(['GET', 'POST'])
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.data)
+        data = json.loads(request.body)
+        form = SignUpForm(data)
         if form.is_valid():
             form.save()
-            return Response({'success': True}, status=status.HTTP_201_CREATED)
+            return JsonResponse({'message': 'User created successfully'})
         else:
-            return Response({'success': False, 'errors': form.errors}, status=status.HTTP_400_BAD_REQUEST)
-    elif request.method == 'GET':
+            errors = form.errors.as_json()
+            return JsonResponse({'message': 'Signup failed', 'errors': errors}, status=400)
+    else:
         form = SignUpForm()
         return render(request, 'users/signup.html', {'form': form})
-    else:
-        return Response({'message': 'Method Not Allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
+    
 def signin(request):
     if request.method == 'POST':
         form = SignInForm(request.POST)

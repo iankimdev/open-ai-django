@@ -1,11 +1,12 @@
 {% extends "base.html" %} 
 {% block content %}
+
 <div class="container mt-3 flex flex-col">
   <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
     <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"> SIGN UP </h2>
     <p class="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400"> Create an Account </p>
   </div>
-  <form id="signup-form" method="post">
+  <form id="signup-form" method="post" enctype="multipart/form-data" onsubmit="event.preventDefault(); signUp();">
     {% csrf_token %}
     <div class="form-group">
       <label for="username">Username:</label>
@@ -16,52 +17,77 @@
       <input type="email" class="form-control" id="email" name="email" required>
     </div>
     <div class="form-group">
-        <label for="password1">Password:</label>
-        <input type="password" class="form-control" id="password1" name="password1" required>
+      <label for="password1">Password:</label>
+      <input type="password" class="form-control" id="password1" name="password1" required>
     </div>
     <div class="form-group">
-        <label for="password2">Confirm Password:</label>
-        <input type="password" class="form-control" id="password2" name="password2" required>
+      <label for="password2">Confirm Password:</label>
+      <input type="password" class="form-control" id="password2" name="password2" required>
     </div>
 
     <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Sign Up</button>
   </form>
 
   <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
- 
 </div>
 
 <script>
-  document.getElementById("signup-form").addEventListener("submit", function(event) {
-    event.preventDefault(); 
+function signUp() {
+  const username = document.getElementById('username').value;
+  const email = document.getElementById('email').value;
+  const password1 = document.getElementById('password1').value;
+  const password2 = document.getElementById('password2').value;
 
-    let form = event.target;
-    let formData = new FormData(form);
-
-    let url = "/users/signup/"; 
-    
-    fetch(url, {
-      method: "POST",
-      body: formData
-    })
-    .then(response => {
-      if (response.ok) {
+  const data = {
+    username: username,
+    email: email,
+    password1: password1,
+    password2: password2,
+  };
+  if (username === '' || password1 === '' || password2 === '') {
+    const errorMessage = document.getElementById('error-message');
+    errorMessage.textContent = 'Please fill in all required fields.';
+    errorMessage.style.display = 'block';
+    return;
+  }
+  fetch('/users/signup/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': getCookie('csrftoken') 
+    },
+    body: JSON.stringify(data)
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message === 'User created successfully') {
         window.location.href = "/users/signin/"; 
       } else {
-        return response.json().then(data => {
-          let errorMessage = "";
-          for (let key in data) {
-            errorMessage += data[key].join("<br>");
-          }
-          document.getElementById("error-message").innerHTML = errorMessage;
-          document.getElementById("error-message").style.display = "block";
-        });
+        const errorMessage = document.getElementById('error-message');
+        errorMessage.textContent = 'Signup failed. Please check your information and try again.';
+        errorMessage.style.display = 'block';
       }
     })
     .catch(error => {
-      console.error("Error:", error);
+      console.error('Error:', error);
     });
-  });
+}
+
+// CSRF 토큰을 쿠키에서 가져오는 함수입니다.
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === name + '=') {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
 </script>
 
 {% endblock %}
