@@ -17,6 +17,8 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 from django.views.decorators.csrf import csrf_exempt
 import json
+from .models import Profile
+
 @csrf_exempt
 def signup(request):
     if request.method == 'POST':
@@ -53,11 +55,13 @@ def signout(request):
     logout(request)
     return redirect('http://127.0.0.1:8000/')
 
-
 @login_required
 def profile(request):
     user = request.user
-    profile = user.profile
+    try:
+        profile = Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+        profile = None
 
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=user)
@@ -73,6 +77,8 @@ def profile(request):
         profile_form = UpdateProfileForm(instance=profile)
 
     return render(request, 'users/update-profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
 
 
 class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
