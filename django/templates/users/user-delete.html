@@ -4,10 +4,58 @@
   <div class="container">
     <h1>Delete Account</h1>
     <p>Are you sure you want to delete your account?</p>
-    <form method="post">
+    <div id="form-errors" class="alert alert-danger alert-dismissible" role="alert" style="display: none;"></div>
+    <form id="delete-account-form">
       {% csrf_token %}
-      <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Delete</button>
-      <a href="{% url 'users:profile' %}" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Cancel</a>
+      <button type="button" id="delete-account-btn" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Delete</button>
+      <a href="/users/profile/" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Cancel</a>
     </form>
   </div>
+
+  <script>
+    const csrfToken = "{{ csrf_token }}";
+
+    document.getElementById("delete-account-btn").addEventListener("click", function() {
+  fetch("/users/delete-user/", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken"),
+      "X-Requested-With": "XMLHttpRequest"
+    },
+  })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("ERROR");
+      }
+    })
+    .then(data => {
+      if (data.success) {
+        window.location.href = "/users/signin/";  // 성공적인 삭제이므로 수동으로 signin 페이지로 리디렉션
+      } else {
+        throw new Error("ERROR");
+      }
+    })
+    .catch(error => {
+      console.error("에러:", error);
+    });
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+  </script>
 {% endblock %}

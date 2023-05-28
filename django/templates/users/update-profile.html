@@ -61,7 +61,7 @@ document.getElementById("profile-form").addEventListener("submit", function(even
                 }
                 formErrorsDiv.style.display = "block";
             } else {
-                // Handle successful response or redirect
+                window.location.href = "{% url 'users:profile' %}";
             }
         })
         .catch(error => {
@@ -71,40 +71,12 @@ document.getElementById("profile-form").addEventListener("submit", function(even
 
 document.getElementById("change-password-link").addEventListener("click", function(event) {
     event.preventDefault();
-
-    fetch("/users/password-change-url", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookie("csrftoken")
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            // Handle response or redirect
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
+    window.location.href = "/users/password-change/";
 });
 
 document.getElementById("delete-account-link").addEventListener("click", function(event) {
     event.preventDefault();
-
-    fetch("/users/delete-account-url", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookie("csrftoken")
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            // Handle response or redirect
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
+    window.location.href = "/users/delete-user/";
 });
 
 function getCookie(name) {

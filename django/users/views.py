@@ -7,8 +7,9 @@ from .forms import SignUpForm, SignInForm, UpdateUserForm, UpdateProfileForm
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import View
 from django.views.generic.edit import DeleteView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -79,10 +80,13 @@ def profile(request):
         profile_form = UpdateProfileForm(instance=profile)
 
     return render(request, 'users/update-profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+
 class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
     template_name = 'users/change_password.html'
     success_message = "Successfully Changed Your Password"
-    success_url = reverse_lazy('users:signin')
+    success_url = '/users/signin/' 
 
 class DeleteUserView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = get_user_model()
@@ -92,3 +96,15 @@ class DeleteUserView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
     def get_object(self, queryset=None):
         return self.request.user
+    
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        self.object.delete()
+        self.request.session.flush()
+        messages.success(self.request, self.success_message)
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({"success": True})
+        else:
+            return self.get_success_url()
