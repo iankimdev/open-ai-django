@@ -8,17 +8,13 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import DeleteView
-
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from django.http import JsonResponse
-from rest_framework import status
 from django.contrib.auth import get_user_model
-User = get_user_model()
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import Profile
 
+User = get_user_model()
 @csrf_exempt
 def signup(request):
     if request.method == 'POST':
@@ -33,22 +29,25 @@ def signup(request):
     else:
         form = SignUpForm()
         return render(request, 'users/signup.html', {'form': form})
-    
+
+@csrf_exempt
 def signin(request):
     if request.method == 'POST':
-        form = SignInForm(request.POST)
+        data = json.loads(request.body)
+        form = SignInForm(data)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('http://127.0.0.1:8000/')  # Redirect to the home page after successful login
+                return JsonResponse({'message': 'Login successful'})
             else:
-                form.add_error(None, 'Invalid username or password')  # Add a form-level error message
+                return JsonResponse({'message': 'Invalid username or password'}, status=400)
+        else:
+            return JsonResponse({'message': 'Form data is invalid'}, status=400)
     else:
         form = SignInForm()
-    # Add provider_login_url to the context
     return render(request, 'users/signin.html', {'form': form})
 
 def signout(request):
@@ -79,13 +78,10 @@ def profile(request):
     return render(request, 'users/update-profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
-
-
 class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
     template_name = 'users/change_password.html'
     success_message = "Successfully Changed Your Password"
     success_url = reverse_lazy('users:signin')
-
 
 class DeleteUserView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = get_user_model()

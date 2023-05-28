@@ -1,15 +1,13 @@
-
-{% extends "base.html" %} 
+{% extends "base.html" %}
 {% block content %}
 
 <div class="container mt-3">
   <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
-    <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white" > SIGN IN </h2>
+    <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"> SIGN IN </h2>
     <p class="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400"> Login with Account </p>
   </div>
-  
 
-  <form method="post">
+  <form id="signin-form" method="post" onsubmit="event.preventDefault(); signIn();">
     {% csrf_token %}
     <div class="form-group">
       <label for="username">Username:</label>
@@ -23,18 +21,66 @@
     <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Sign In</button>
   </form>
 
-
   <!-- Display form errors -->
-  {% if form.errors %}
-  <div class="alert alert-danger mt-3">
-    <ul>
-      {% for field_errors in form.errors.values %}
-        {% for error in field_errors %}
-          <li>{{ error }}</li>
-        {% endfor %}
-      {% endfor %}
-    </ul>
-  </div>
-{% endif %}
+  <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+
 </div>
+
+<script>
+  function signIn() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const data = {
+      username: username,
+      password: password,
+    };
+
+    if (username === '' || password === '') {
+      const errorMessage = document.getElementById('error-message');
+      errorMessage.textContent = 'Please fill in all required fields.';
+      errorMessage.style.display = 'block';
+      return;
+    }
+
+    fetch('http://127.0.0.1:8000/users/signin/', { // Replace with the actual URL of your signin API endpoint
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken'),
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message === 'Login successful') {
+          window.location.href = "http://127.0.0.1:8000/"; // Replace with the actual URL where you want to redirect after successful signin
+        } else {
+          const errorMessage = document.getElementById('error-message');
+          errorMessage.textContent = 'Invalid username or password. Please try again.';
+          errorMessage.style.display = 'block';
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+
+  // CSRF token from cookie.
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + '=') {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+</script>
+
 {% endblock %}

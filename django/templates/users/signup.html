@@ -50,7 +50,7 @@ function signUp() {
     errorMessage.style.display = 'block';
     return;
   }
-  fetch('/users/signup/', {
+  fetch('http://127.0.0.1:8000/users/signup/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ function signUp() {
     });
 }
 
-// CSRF 토큰을 쿠키에서 가져오는 함수입니다.
+// CSRF token from cookie.
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
