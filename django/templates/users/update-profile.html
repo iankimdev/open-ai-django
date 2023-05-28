@@ -1,42 +1,126 @@
 {% extends "base.html" %} 
 {% block content %}
 
-{% if user_form.errors %}
-    <div class="alert alert-danger alert-dismissible" role="alert">
-        <div id="form_errors">
-            {% for key, value in user_form.errors.items %}
-                <strong>{{ value }}</strong>
-            {% endfor %}
-        </div>
-        <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-{% endif %}
+<div id="form-errors" class="alert alert-danger alert-dismissible" role="alert" style="display: none;"></div>
+
 <div class="form-content">
-    <form method="post" enctype="multipart/form-data">
+    <form id="profile-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-row">
             <div class="col-md-5">
                 <div class="form-group">
                     <label class="small mb-1">Username:</label>
-                        {{ user_form.username }}
+                    <input type="text" class="form-control" id="username" name="username" value="{{ user_form.username.value }}">
                     <label class="small mb-1">Email:</label>
-                        {{ user_form.email }}
+                    <input type="email" class="form-control" id="email" name="email" value="{{ user_form.email.value }}">
                 </div>
                 <div class="form-group">
                     <label class="small mb-1">Address:</label>
-                        {{ profile_form.address }}
+                    <input type="text" class="form-control" id="address" name="address" value="{{ profile_form.address.value }}">
                 </div>
             </div>
         </div>
         <br><br>
         <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Save Changes</button>
-        <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Reset</button>
+        <button type="reset" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Reset</button>
         <br><br>
-        <a href="{% url 'users:password_change' %}" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2" >Change Password</a>
-        <a href="{% url 'users:delete_user' %}" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2" >Delete Account</a>
+        <a id="change-password-link" href="#" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Change Password</a>
+        <a id="delete-account-link" href="#" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Delete Account</a>
     </form>
 </div>
+
+<script>
+document.getElementById("profile-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const address = document.getElementById("address").value;
+
+    const data = {
+        username: username,
+        email: email,
+        address: address
+    };
+
+    fetch("/users/profile/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken")
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.errors) {
+                const formErrorsDiv = document.getElementById("form-errors");
+                formErrorsDiv.innerHTML = "";
+                for (const key in data.errors) {
+                    formErrorsDiv.innerHTML += "<strong>" + data.errors[key] + "</strong>";
+                }
+                formErrorsDiv.style.display = "block";
+            } else {
+                // Handle successful response or redirect
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+});
+
+document.getElementById("change-password-link").addEventListener("click", function(event) {
+    event.preventDefault();
+
+    fetch("/users/password-change-url", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken")
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Handle response or redirect
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+});
+
+document.getElementById("delete-account-link").addEventListener("click", function(event) {
+    event.preventDefault();
+
+    fetch("/users/delete-account-url", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken")
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Handle response or redirect
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
 
 {% endblock %}

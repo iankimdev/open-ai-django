@@ -43,7 +43,7 @@
       return;
     }
 
-    fetch('http://127.0.0.1:8000/users/signin/', { // Replace with the actual URL of your signin API endpoint
+    fetch('/users/signin/', { // Replace with the actual URL of your signin API endpoint
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +54,7 @@
       .then(response => response.json())
       .then(data => {
         if (data.message === 'Login successful') {
-          window.location.href = "http://127.0.0.1:8000/"; // Replace with the actual URL where you want to redirect after successful signin
+          window.location.href = "/"; // Replace with the actual URL where you want to redirect after successful signin
         } else {
           const errorMessage = document.getElementById('error-message');
           errorMessage.textContent = 'Invalid username or password. Please try again.';

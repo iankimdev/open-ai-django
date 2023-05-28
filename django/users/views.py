@@ -63,21 +63,22 @@ def profile(request):
         profile = None
 
     if request.method == 'POST':
-        user_form = UpdateUserForm(request.POST, instance=user)
-        profile_form = UpdateProfileForm(request.POST, instance=profile)
+        data = json.loads(request.body)
+        user_form = UpdateUserForm(data, instance=user)
+        profile_form = UpdateProfileForm(data, instance=profile)
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
             messages.success(request, 'Your profile is updated successfully')
-            return redirect(reverse('users:profile'))
+            return JsonResponse({'success': True, 'message': 'Your profile is updated successfully'})
+        else:
+            return JsonResponse({'success': False, 'errors': user_form.errors})
     else:
         user_form = UpdateUserForm(instance=user)
         profile_form = UpdateProfileForm(instance=profile)
 
     return render(request, 'users/update-profile.html', {'user_form': user_form, 'profile_form': profile_form})
-
-
 class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
     template_name = 'users/change_password.html'
     success_message = "Successfully Changed Your Password"
