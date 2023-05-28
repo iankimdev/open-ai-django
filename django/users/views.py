@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from .forms import SignUpForm, SignInForm, UpdateUserForm, UpdateProfileForm
 from django.contrib.auth.views import PasswordChangeView
@@ -53,7 +54,7 @@ def signin(request):
 
 def signout(request):
     logout(request)
-    return redirect('http://127.0.0.1:8000/')
+    return redirect('/')
 
 @login_required
 def profile(request):
@@ -63,7 +64,7 @@ def profile(request):
     except Profile.DoesNotExist:
         profile = None
 
-    if request.method == 'POST':
+    if request.method == 'PUT':
         data = json.loads(request.body)
         user_form = UpdateUserForm(data, instance=user)
         profile_form = UpdateProfileForm(data, instance=profile)
@@ -86,7 +87,20 @@ def profile(request):
 class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
     template_name = 'users/change_password.html'
     success_message = "Successfully Changed Your Password"
-    success_url = '/users/signin/' 
+    success_url = '/users/signin/'
+    http_method_names = ['get', 'post', 'put']
+
+    def put(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            self.form_valid(form)
+            return JsonResponse({'success': True})
+        else:
+            self.form_invalid(form)
+            errors = {}
+            for field, error_list in form.errors.items():
+                errors[field] = error_list[0]
+            return JsonResponse({'success': False, 'errors': errors})  
 
 class DeleteUserView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = get_user_model()

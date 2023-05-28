@@ -44,7 +44,7 @@ document.getElementById("profile-form").addEventListener("submit", function(even
     };
 
     fetch("/users/profile/", {
-        method: "POST",
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
             "X-CSRFToken": getCookie("csrftoken")
