@@ -16,22 +16,39 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import Profile
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import UserSerializer
+from rest_framework.permissions import IsAuthenticated
 User = get_user_model()
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
+
+
 @csrf_exempt
+@api_view(['GET', 'POST'])
 def signup(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        form = SignUpForm(data)
-        if form.is_valid():
-            form.save()
-            return JsonResponse({'message': 'User created successfully'})
+        serializer = UserSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            response_data = {
+                'email': serializer.data['email'],
+                'username': serializer.data['username'],
+                'message': 'User created successfully'
+            }
+            return Response(response_data, status=status.HTTP_201_CREATED)
         else:
-            errors = form.errors.as_json()
-            return JsonResponse({'message': 'Signup failed', 'errors': errors}, status=400)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
-        form = SignUpForm()
-        return render(request, 'users/signup.html', {'form': form})
-
+        serializer = UserSerializer()
+        return render(request, 'users/signup.html')
+    
 @csrf_exempt
 def signin(request):
     if request.method == 'POST':
@@ -112,19 +129,20 @@ class DeleteUserView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = get_user_model()
     template_name = 'users/delete.html'
     success_url = reverse_lazy('users:signin')
-    success_message = "Your account has been deleted successfully"
 
     def get_object(self, queryset=None):
         return self.request.user
     
+    def get_success_url(self):
+        return '/users/signin/' 
+    
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-
         self.object.delete()
         self.request.session.flush()
-        messages.success(self.request, self.success_message)
 
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({"success": True})
         else:
-            return self.get_success_url()
+            messages.success(request, "Your account has been deleted successfully")
+            return HttpResponseRedirect(self.get_success_url())

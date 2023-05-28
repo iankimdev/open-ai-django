@@ -37,19 +37,19 @@ function signUp() {
   const email = document.getElementById('email').value;
   const password1 = document.getElementById('password1').value;
   const password2 = document.getElementById('password2').value;
-
-  const data = {
-    username: username,
-    email: email,
-    password1: password1,
-    password2: password2,
-  };
   if (username === '' || password1 === '' || password2 === '') {
     const errorMessage = document.getElementById('error-message');
     errorMessage.textContent = 'Please fill in all required fields.';
     errorMessage.style.display = 'block';
     return;
   }
+  const data = {
+    username: username,
+    email: email,
+    password: password1,
+    password2: password2,
+  };
+ 
   fetch('/users/signup/', {
     method: 'POST',
     headers: {

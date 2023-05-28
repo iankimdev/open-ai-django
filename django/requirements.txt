@@ -22,27 +22,21 @@ botocore==1.29.137
     #   s3transfer
 certifi==2023.5.7
     # via requests
-cffi==1.15.1
-    # via cryptography
 charset-normalizer==3.1.0
     # via
     #   aiohttp
     #   requests
-cryptography==40.0.2
-    # via pyjwt
-defusedxml==0.7.1
-    # via python3-openid
 dj-database-url==2.0.0
     # via -r django/requirements/requirements.in
 django==4.1.8
     # via
     #   -r django/requirements/requirements.in
     #   dj-database-url
-    #   django-allauth
     #   django-storages
-django-allauth==0.54.0
-    # via -r django/requirements/requirements.in
+    #   djangorestframework
 django-storages==1.13.2
+    # via -r django/requirements/requirements.in
+djangorestframework==3.14.0
     # via -r django/requirements/requirements.in
 frozenlist==1.3.3
     # via
@@ -60,32 +54,22 @@ multidict==6.0.4
     # via
     #   aiohttp
     #   yarl
-oauthlib==3.2.2
-    # via requests-oauthlib
 openai==0.27.7
     # via -r django/requirements/requirements.in
 pillow==9.5.0
     # via -r django/requirements/requirements.in
 psycopg2-binary==2.9.6
     # via -r django/requirements/requirements.in
-pycparser==2.21
-    # via cffi
-pyjwt[crypto]==2.7.0
-    # via django-allauth
 python-dateutil==2.8.2
     # via botocore
 python-decouple==3.8
     # via -r django/requirements/requirements.in
-python3-openid==3.2.0
-    # via django-allauth
+pytz==2023.3
+    # via djangorestframework
 requests==2.30.0
     # via
-    #   django-allauth
     #   openai
-    #   requests-oauthlib
     #   stripe
-requests-oauthlib==1.3.1
-    # via django-allauth
 s3transfer==0.6.1
     # via boto3
 six==1.16.0
