@@ -61,7 +61,7 @@ document.getElementById("profile-form").addEventListener("submit", function(even
                 }
                 formErrorsDiv.style.display = "block";
             } else {
-                window.location.href = "{% url 'users:profile' %}";
+                window.location.href = "/users/profile/";
             }
         })
         .catch(error => {
@@ -76,7 +76,7 @@ document.getElementById("change-password-link").addEventListener("click", functi
 
 document.getElementById("delete-account-link").addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "/users/delete-user/";
+    window.location.href = "/users/delete/";
 });
 
 function getCookie(name) {

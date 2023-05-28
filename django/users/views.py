@@ -80,31 +80,37 @@ def profile(request):
         user_form = UpdateUserForm(instance=user)
         profile_form = UpdateProfileForm(instance=profile)
 
-    return render(request, 'users/update-profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
 
 class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
-    template_name = 'users/change_password.html'
+    template_name = 'users/password-change.html'
     success_message = "Successfully Changed Your Password"
-    success_url = '/users/signin/'
     http_method_names = ['get', 'post', 'put']
+    success_url = '/users/signin/'
 
     def put(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
-            self.form_valid(form)
-            return JsonResponse({'success': True})
+            return self.form_valid(form)
         else:
-            self.form_invalid(form)
-            errors = {}
-            for field, error_list in form.errors.items():
-                errors[field] = error_list[0]
-            return JsonResponse({'success': False, 'errors': errors})  
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, self.success_message)
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        errors = {}
+        for field, error_list in form.errors.items():
+            errors[field] = error_list[0]
+        return JsonResponse({'success': False, 'errors': errors})  
 
 class DeleteUserView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = get_user_model()
-    template_name = 'users/user-delete.html'
+    template_name = 'users/delete.html'
     success_url = reverse_lazy('users:signin')
     success_message = "Your account has been deleted successfully"
 
