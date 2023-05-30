@@ -16,8 +16,8 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework import status
 
 def product_list_view(request):
-    object_list = Product.objects.all()
-    return render(request, 'products/list.html', {"object_list":object_list})
+    products_list = Product.objects.all()
+    return render(request, 'products/list.html', {"products_list":products_list})
 
 @login_required
 def product_manage_detail_view(request, handle=None):
@@ -85,12 +85,6 @@ def product_attachment_download_view(request, handle=None, pk=None):
     response['Content-Type'] = content_type or 'application/octet-stream'
     response['Content-Disposition'] = f'attachment;filename={filename}'
     return response
-
-def generate_handle():
-    # Generate a random alphanumeric handle
-    letters_digits = string.ascii_letters + string.digits
-    handle = ''.join(random.choice(letters_digits) for _ in range(8))
-    return handle
 
 @login_required
 @api_view(['POST'])

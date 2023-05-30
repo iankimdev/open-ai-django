@@ -1,16 +1,17 @@
 <div class="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
-    {% if object.image %}
-        <a href="{{object.get_absolute_url}}">
-            <img class="w-full md:w-64 rounded-lg sm:rounded-none sm:rounded-l-lg" src="{{object.image.url}}" alt="{{object.name}} ">
+    {% if product.image %}
+        <a href="/product/{{ product.handle }}/">
+            
+            <img class="w-full md:w-64 rounded-lg sm:rounded-none sm:rounded-l-lg" src="{{product.image.url}}" alt="{{product.name}} ">
         </a>
     {% endif %}
     <div class="p-5">
         <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-            <a href="{{object.get_absolute_url}}">{{object.name}}</a>
+            <a href="/product/{{ product.handle }}/">{{product.name}}</a>
         </h3>
-        <span class="text-gray-500 dark:text-gray-400">{{object.handle}}</span>
-        <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400">{{object.description}}</p>
-        <a href="{{object.get_absolute_url}}" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">View</a>
+        <span class="text-gray-500 dark:text-gray-400">{{product.handle}}</span>
+        <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400">{{product.description}}</p>
+        <a href="/product/{{ product.handle }}/" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">View</a>
     </div>
 </div> 
 
