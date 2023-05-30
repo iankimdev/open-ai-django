@@ -1,5 +1,4 @@
-import mimetypes
-
+import mimetypes, random, string
 from django.http import FileResponse, HttpResponseBadRequest, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
@@ -7,7 +6,11 @@ from .forms import ProductForm, ProductUpdateForm, ProductAttachmentInlineFormSe
 from .models import Product, ProductAttachment
 from django.contrib.auth.decorators import login_required
 from dalle.models import DalleImage
-
+from .models import Product
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import ProductSerializer
+from urllib.parse import unquote
 
 def product_list_view(request):
     object_list = Product.objects.all()
@@ -80,31 +83,17 @@ def product_attachment_download_view(request, handle=None, pk=None):
     response['Content-Disposition'] = f'attachment;filename={filename}'
     return response
 
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    return render(request, "product_detail.html", {"product": product})
-
-
-
-import random
-import string
 def generate_handle():
     # Generate a random alphanumeric handle
     letters_digits = string.ascii_letters + string.digits
     handle = ''.join(random.choice(letters_digits) for _ in range(8))
     return handle
-from urllib.parse import unquote
+
 @login_required
 def custom_order_view(request, phrase, id):
     if request.method == 'POST':
         phrase = unquote(phrase)
-        print(phrase)
-        id = id
-
-        # Retrieve the DalleImage object
         dalle_image = get_object_or_404(DalleImage, id=id)
-
-        # Create the Product object
         handle = generate_handle()  # Generate handle automatically
         price = 9.99
 
@@ -120,16 +109,18 @@ def custom_order_view(request, phrase, id):
         return HttpResponseRedirect(product.get_absolute_url())
     else:
         return HttpResponseBadRequest("Invalid request method.")
+    
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAdminUser
+from rest_framework.response import Response
 
 @login_required
+@api_view(['GET', 'DELETE'])
 def product_delete_view(request, handle):
     product = get_object_or_404(Product, handle=handle)
-    if not request.user.is_superuser:
-        return HttpResponseForbidden("You don't have permission to access this page.")
-    
-    if request.method == 'POST':
+
+    if request.method == 'DELETE':
         product.delete()
-        return redirect('products:list')
-    
+        return Response(status=204)
     context = {'product': product}
     return render(request, 'products/delete.html', context)

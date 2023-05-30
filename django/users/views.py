@@ -19,7 +19,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserSerializer, SignInSerializer, ProfileSerializer, UpdateProfileSerializer, UpdateUserSerializer, ChangePasswordSerializer
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+
 
 User = get_user_model()
 
