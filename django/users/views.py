@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_user_model
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from .forms import SignUpForm, SignInForm, UpdateUserForm, UpdateProfileForm
 from django.contrib.auth.views import PasswordChangeView
@@ -15,18 +14,12 @@ from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import Profile
-
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import UserSerializer
-from rest_framework.permissions import IsAuthenticated
+from .serializers import UserSerializer, SignInSerializer
+
 User = get_user_model()
-from rest_framework.authentication import SessionAuthentication
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.authentication import SessionAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.permissions import AllowAny
 
 
 @csrf_exempt
@@ -50,24 +43,20 @@ def signup(request):
         return render(request, 'users/signup.html')
     
 @csrf_exempt
+@api_view(['GET', 'POST'])
 def signin(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        form = SignInForm(data)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return JsonResponse({'message': 'Login successful'})
-            else:
-                return JsonResponse({'message': 'Invalid username or password'}, status=400)
+    serializer = SignInSerializer(data=request.data)
+    if serializer.is_valid():
+        username = serializer.validated_data['username']
+        password = serializer.validated_data['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return Response({'message': 'Login successful'})
         else:
-            return JsonResponse({'message': 'Form data is invalid'}, status=400)
+            return Response({'message': 'Invalid username or password'}, status=400)
     else:
-        form = SignInForm()
-    return render(request, 'users/signin.html', {'form': form})
+        return render(request, 'users/signin.html')
 
 def signout(request):
     logout(request)
