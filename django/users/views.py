@@ -93,14 +93,13 @@ def profile(request):
 
 
 class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, APIView):
-    permission_classes = (IsAuthenticated,)
     
     def get(self, request, *args, **kwargs):
         user = request.user
         return render(request, 'users/password-change.html')
 
     def put(self, request, *args, **kwargs):
-        serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
+        serializer = ChangePasswordSerializer(context={'request': request}, data=request.data)
 
         if serializer.is_valid():
             user = request.user
@@ -126,24 +125,15 @@ class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     
-class DeleteUserView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
-    model = get_user_model()
-    template_name = 'users/delete.html'
-    success_url = reverse_lazy('users:signin')
+class DeleteUserView(LoginRequiredMixin, SuccessMessageMixin, APIView):
 
-    def get_object(self, queryset=None):
-        return self.request.user
-    
-    def get_success_url(self):
-        return '/users/signin/' 
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        return render(request, 'users/delete.html')
     
     def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        self.object.delete()
-        self.request.session.flush()
+        user = request.user
+        user.delete()
+        request.session.flush()
 
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            return JsonResponse({"success": True})
-        else:
-            messages.success(request, "Your account has been deleted successfully")
-            return HttpResponseRedirect(self.get_success_url())
+        return Response({"message": "Your account has been deleted successfully", "success": True})

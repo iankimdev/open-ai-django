@@ -35,8 +35,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ['user', 'address']
 
-
-
 class SignInSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150)
     password = serializers.CharField(write_only=True, max_length=128)

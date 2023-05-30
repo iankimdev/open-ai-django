@@ -19,11 +19,11 @@
     headers: {
       "Content-Type": "application/json",
       "X-CSRFToken": getCookie("csrftoken"),
-      "X-Requested-With": "XMLHttpRequest"
     },
   })
     .then(response => {
       if (response.ok) {
+        window.location.href = "/users/signin/";
         return response.json();
       } else {
         throw new Error("ERROR");
