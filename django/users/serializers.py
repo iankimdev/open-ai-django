@@ -55,3 +55,27 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['address']
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password1 = serializers.CharField(required=True)
+    new_password2 = serializers.CharField(required=True)
+
+    def validate(self, attrs):
+        old_password = attrs.get('old_password')
+        new_password1 = attrs.get('new_password1')
+        new_password2 = attrs.get('new_password2')
+        
+        user = self.context['request'].user
+        if not user.check_password(old_password):
+            raise serializers.ValidationError("Invalid old password.")
+        if new_password1 != new_password2:
+            raise serializers.ValidationError("The new passwords do not match.")
+        return attrs
+    def create(self, validated_data):
+        pass
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data['new_password1'])
+        instance.save()
+        return instance
+    

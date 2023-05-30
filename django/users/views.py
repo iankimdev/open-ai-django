@@ -17,8 +17,10 @@ from .models import Profile
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import UserSerializer, SignInSerializer, ProfileSerializer, UpdateProfileSerializer, UpdateUserSerializer
+from .serializers import UserSerializer, SignInSerializer, ProfileSerializer, UpdateProfileSerializer, UpdateUserSerializer, ChangePasswordSerializer
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+
 User = get_user_model()
 
 
@@ -62,7 +64,8 @@ def signout(request):
     logout(request)
     return redirect('/')
 
-
+@csrf_exempt
+@login_required
 @api_view(['GET', 'PUT'])
 def profile(request):
     
@@ -88,30 +91,41 @@ def profile(request):
     return render(request, 'users/profile.html', {'user_data': user_serializer.data, 'profile_data': profile_serializer.data})
 
 
-class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
-    template_name = 'users/password-change.html'
-    success_message = "Successfully Changed Your Password"
-    http_method_names = ['get', 'post', 'put']
-    success_url = '/users/signin/'
+
+class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, APIView):
+    permission_classes = (IsAuthenticated,)
+    
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        return render(request, 'users/password-change.html')
 
     def put(self, request, *args, **kwargs):
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+        serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
 
-    def form_valid(self, form):
-        form.save()
-        messages.success(self.request, self.success_message)
-        return super().form_valid(form)
+        if serializer.is_valid():
+            user = request.user
+            old_password = serializer.validated_data.get("old_password")
+            new_password1 = serializer.validated_data.get("new_password1")
+            new_password2 = serializer.validated_data.get("new_password2")
+
+            if not user.check_password(old_password):
+                return Response({"old_password": ["Invalid old password."]}, status=status.HTTP_400_BAD_REQUEST)
+
+            if new_password1 != new_password2:
+                return Response({"new_password2": ["The new passwords do not match."]}, status=status.HTTP_400_BAD_REQUEST)
+
+            user.set_password(new_password1)
+            user.save()
+
+            response = {
+                'success': True,
+                'message': "Successfully changed your password"
+            }
+            return Response(response, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     
-    def form_invalid(self, form):
-        errors = {}
-        for field, error_list in form.errors.items():
-            errors[field] = error_list[0]
-        return JsonResponse({'success': False, 'errors': errors})  
-
 class DeleteUserView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = get_user_model()
     template_name = 'users/delete.html'
