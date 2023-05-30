@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block content %}
 <div class="flex flex-col items-center justify-center px-6 mx-auto md:h-screen lg:py-0">
   <div class="container mt-3">
@@ -12,20 +13,56 @@
     </form>
 
     <br />
-    {% if object %}
+    {% if product %}
     <div>
-      <img src="{{ object.ai_image.url }}" alt="{{ object.phrase }}" />
+      <img src="{{ product.ai_image.url }}" alt="{{ product.phrase }}" />
 
       <div class="mt-10">
-        <form method="post" action="{% url 'products:custom_order_view' object.phrase object.id %}">
-          {% csrf_token %}
-          <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">
-            "{{ object.phrase }}" ORDER NOW
-          </button>
-        </form>
+        <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2" onclick="orderProduct()">
+          "{{ product.phrase }}" ORDER NOW
+        </button>
       </div>
     </div>
     {% endif %}
   </div>
 </div>
+
+<script>
+  function orderProduct() {
+    const phrase = '{{ product.phrase }}'; 
+    const id = '{{ product.id }}';
+    const handle = phrase.replace(/ /g, "-") + id;
+
+    const url = `/products/order/`;
+    const redirect_url = `/products/${handle}/`;
+    const data = {
+      phrase:phrase,
+      id: id,
+      handle:handle,
+    };
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}"
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => {
+      if (response.ok) {
+        window.location.href = redirect_url;
+        console.log("Order placed successfully.");
+      } else {
+        console.log("Failed to place order.");
+      }
+    })
+    .then(data => {
+       // Access the handle property from the response data
+    })
+    .catch(error => {
+      console.log("An error occurred:", error);
+    });
+  }
+</script>
+
 {% endblock %}

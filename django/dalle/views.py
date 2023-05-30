@@ -42,5 +42,5 @@ def generate_image_from_txt_for_custom(request):
         obj = DalleImage(phrase=user_input)
         obj.ai_image.save(fname, img_file)
         obj.save()
-    return render(request, "custom/custom-dalle.html", {"object":obj})
+    return render(request, "custom/custom-dalle.html", {"product":obj})
 

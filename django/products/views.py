@@ -1,5 +1,5 @@
-import mimetypes, random, string
-from django.http import FileResponse, HttpResponseBadRequest, HttpResponseRedirect, HttpResponseForbidden
+import mimetypes, random, string, json
+from django.http import FileResponse, HttpResponseBadRequest, HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 from .forms import ProductForm, ProductUpdateForm, ProductAttachmentInlineFormSet
@@ -11,6 +11,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import ProductSerializer
 from urllib.parse import unquote
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAdminUser
+from rest_framework import status
 
 def product_list_view(request):
     object_list = Product.objects.all()
@@ -90,30 +93,26 @@ def generate_handle():
     return handle
 
 @login_required
-def custom_order_view(request, phrase, id):
+@api_view(['POST'])
+def products_create(request):
     if request.method == 'POST':
-        phrase = unquote(phrase)
+        phrase = unquote(request.data.get('phrase'))
+        id = request.data.get('id')
+        handle=request.data.get('handle')
         dalle_image = get_object_or_404(DalleImage, id=id)
-        handle = generate_handle()  # Generate handle automatically
         price = 9.99
 
         product = Product.objects.create(
             image=dalle_image.ai_image,
             name=phrase,
             handle=handle,
-            price=price
+            price=price,
+            id=id
         )
-        context = {
-            'product': product
-        }
-        return HttpResponseRedirect(product.get_absolute_url())
+        return Response(status=status.HTTP_201_CREATED)
     else:
         return HttpResponseBadRequest("Invalid request method.")
     
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAdminUser
-from rest_framework.response import Response
-
 @login_required
 @api_view(['GET', 'DELETE'])
 def product_delete_view(request, handle):
