@@ -17,8 +17,8 @@ from .models import Profile
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import UserSerializer, SignInSerializer
-
+from .serializers import UserSerializer, SignInSerializer, ProfileSerializer, UpdateProfileSerializer, UpdateUserSerializer
+from rest_framework.views import APIView
 User = get_user_model()
 
 
@@ -62,32 +62,30 @@ def signout(request):
     logout(request)
     return redirect('/')
 
-@login_required
+
+@api_view(['GET', 'PUT'])
 def profile(request):
+    
     user = request.user
     try:
         profile = Profile.objects.get(user=user)
     except Profile.DoesNotExist:
         profile = None
-
+    
     if request.method == 'PUT':
-        data = json.loads(request.body)
-        user_form = UpdateUserForm(data, instance=user)
-        profile_form = UpdateProfileForm(data, instance=profile)
+        user_serializer = UpdateUserSerializer(data=request.data, instance=user)
+        profile_serializer = UpdateProfileSerializer(data=request.data, instance=profile)
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, 'Your profile is updated successfully')
-            return JsonResponse({'success': True, 'message': 'Your profile is updated successfully'})
+        if user_serializer.is_valid() and profile_serializer.is_valid():
+            user_serializer.save()
+            profile_serializer.save()
+            return Response({'success': True, 'message': 'Your profile is updated successfully'}, status=status.HTTP_200_OK)
         else:
-            return JsonResponse({'success': False, 'errors': user_form.errors})
+            return Response({'success': False, 'errors': user_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     else:
-        user_form = UpdateUserForm(instance=user)
-        profile_form = UpdateProfileForm(instance=profile)
-
-    return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
-
+        user_serializer = UserSerializer(instance=user)
+        profile_serializer = ProfileSerializer(instance=profile)
+    return render(request, 'users/profile.html', {'user_data': user_serializer.data, 'profile_data': profile_serializer.data})
 
 
 class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):

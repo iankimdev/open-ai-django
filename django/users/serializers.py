@@ -45,3 +45,13 @@ class SignInSerializer(serializers.Serializer):
         username = data.get('username')
         password = data.get('password')
         return data
+    
+class UpdateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+
+class UpdateProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['address']
