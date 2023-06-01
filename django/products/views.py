@@ -13,7 +13,8 @@ from urllib.parse import unquote
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 
-def product_list(request):
+@login_required
+def products_list(request):
     products_list = Product.objects.all()
     return render(request, 'products/list.html', {"products_list":products_list})
 
@@ -40,7 +41,7 @@ def products_create(request):
     
 @login_required
 @api_view(['GET', 'DELETE'])
-def product_delete(request, handle):
+def products_delete(request, handle):
     product = get_object_or_404(Product, handle=handle)
 
     if request.method == 'DELETE':
@@ -49,7 +50,7 @@ def product_delete(request, handle):
     context = {'product': product}
     return render(request, 'products/delete.html', context)
 
-def product_detail(request, handle=None):
+def products_detail(request, handle=None):
     product = get_object_or_404(Product, handle=handle)
     attachments = ProductAttachment.objects.filter(product=product)
     is_purchased = False
@@ -63,7 +64,7 @@ def product_detail(request, handle=None):
 ###################################################################################################
 
 @login_required
-def product_manage_detail_view(request, handle=None):
+def products_update(request, handle=None):
     product = get_object_or_404(Product, handle=handle)
     attachments = ProductAttachment.objects.filter(product=product)
     is_manager = False
@@ -105,7 +106,7 @@ def product_manage_detail_view(request, handle=None):
     return render(request, 'products/manager.html', context)
 
 @login_required
-def product_attachment_download_view(request, handle=None, pk=None):
+def product_attachment_download(request, handle=None, pk=None):
     attachment = get_object_or_404(ProductAttachment, product__handle=handle, pk=pk)
     can_download = attachment.is_free or False
     if request.user.is_authenticated:
