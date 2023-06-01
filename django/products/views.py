@@ -59,10 +59,6 @@ def products_detail(request, handle=None):
     context = {"object": product, "is_purchased": is_purchased, "attachments":attachments}
     return render(request, 'products/detail.html', context)
 
-###################################################################################################
-#                                        NO USE                                                   #
-###################################################################################################
-
 @login_required
 def products_update(request, handle=None):
     product = get_object_or_404(Product, handle=handle)
