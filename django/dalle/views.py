@@ -21,7 +21,6 @@ def download_image(request, image_id):
         response["Content-Disposition"] = f"attachment; filename={image.ai_image.name}"
         return response
 
-
 @login_required
 def generate_image(request):
     dalle = None

@@ -1,5 +1,5 @@
 import mimetypes, random, string, json
-from django.http import FileResponse, HttpResponseBadRequest, HttpResponseRedirect, HttpResponseForbidden, HttpResponse
+from django.http import FileResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 from .forms import ProductForm, ProductUpdateForm, ProductAttachmentInlineFormSet
@@ -9,15 +9,58 @@ from dalle.models import DalleImage
 from .models import Product
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import ProductSerializer
 from urllib.parse import unquote
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAdminUser
 from rest_framework import status
 
-def product_list_view(request):
+def product_list(request):
     products_list = Product.objects.all()
     return render(request, 'products/list.html', {"products_list":products_list})
+
+@login_required
+@api_view(['POST'])
+def products_create(request):
+    if request.method == 'POST':
+        phrase = unquote(request.data.get('phrase'))
+        id = request.data.get('id')
+        handle=request.data.get('handle')
+        dalle_image = get_object_or_404(DalleImage, id=id)
+        price = 9.99
+
+        product = Product.objects.create(
+            image=dalle_image.ai_image,
+            name=phrase,
+            handle=handle,
+            price=price,
+            id=id
+        )
+        return Response(status=status.HTTP_201_CREATED)
+    else:
+        return HttpResponseBadRequest("Invalid request method.")
+    
+@login_required
+@api_view(['GET', 'DELETE'])
+def product_delete(request, handle):
+    product = get_object_or_404(Product, handle=handle)
+
+    if request.method == 'DELETE':
+        product.delete()
+        return Response(status=204)
+    context = {'product': product}
+    return render(request, 'products/delete.html', context)
+
+def product_detail(request, handle=None):
+    product = get_object_or_404(Product, handle=handle)
+    attachments = ProductAttachment.objects.filter(product=product)
+    is_purchased = False
+    if request.user.is_authenticated:
+        is_purchased = request.user.purchase_set.all().filter(product=product, completed=True).exists()
+    context = {"object": product, "is_purchased": is_purchased, "attachments":attachments}
+    return render(request, 'products/detail.html', context)
+
+###################################################################################################
+#                                        NO USE                                                   #
+###################################################################################################
 
 @login_required
 def product_manage_detail_view(request, handle=None):
@@ -61,15 +104,6 @@ def product_manage_detail_view(request, handle=None):
     context['formset'] = formset
     return render(request, 'products/manager.html', context)
 
-def product_detail_view(request, handle=None):
-    product = get_object_or_404(Product, handle=handle)
-    attachments = ProductAttachment.objects.filter(product=product)
-    is_purchased = False
-    if request.user.is_authenticated:
-        is_purchased = request.user.purchase_set.all().filter(product=product, completed=True).exists()
-    context = {"object": product, "is_purchased": is_purchased, "attachments":attachments}
-    return render(request, 'products/detail.html', context)
-
 @login_required
 def product_attachment_download_view(request, handle=None, pk=None):
     attachment = get_object_or_404(ProductAttachment, product__handle=handle, pk=pk)
@@ -86,34 +120,3 @@ def product_attachment_download_view(request, handle=None, pk=None):
     response['Content-Disposition'] = f'attachment;filename={filename}'
     return response
 
-@login_required
-@api_view(['POST'])
-def products_create(request):
-    if request.method == 'POST':
-        phrase = unquote(request.data.get('phrase'))
-        id = request.data.get('id')
-        handle=request.data.get('handle')
-        dalle_image = get_object_or_404(DalleImage, id=id)
-        price = 9.99
-
-        product = Product.objects.create(
-            image=dalle_image.ai_image,
-            name=phrase,
-            handle=handle,
-            price=price,
-            id=id
-        )
-        return Response(status=status.HTTP_201_CREATED)
-    else:
-        return HttpResponseBadRequest("Invalid request method.")
-    
-@login_required
-@api_view(['GET', 'DELETE'])
-def product_delete_view(request, handle):
-    product = get_object_or_404(Product, handle=handle)
-
-    if request.method == 'DELETE':
-        product.delete()
-        return Response(status=204)
-    context = {'product': product}
-    return render(request, 'products/delete.html', context)
