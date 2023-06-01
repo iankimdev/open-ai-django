@@ -8,12 +8,9 @@ from core.env import config
 from rest_framework.decorators import api_view
 from openai import error as openai_error
 
-
-
 # Create your views here.
 api_key= config("OPENAI_KEY", default=None)
 openai.api_key = api_key
-
 
 def download_image(request, image_id):
     image = get_object_or_404(DalleImage, id=image_id)
@@ -24,7 +21,7 @@ def download_image(request, image_id):
         response["Content-Disposition"] = f"attachment; filename={image.ai_image.name}"
         return response
 
-@api_view(['GET', 'POST'])
+
 @login_required
 def generate_image(request):
     dalle = None
