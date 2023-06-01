@@ -6,13 +6,23 @@
     <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
       <p class="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400"> CUSTOM DALLE</p>
     </div>
-    <form method="post" autocomplete="off">
+    <form method="post" autocomplete="off" onsubmit="return validateForm()">
       {% csrf_token %}
       <input type="text" class="form-control" name="user_input" placeholder="A sunlit indoor lounge area with a pool containing a flamingo" />
       <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Submit</button>
     </form>
 
     <br />
+    <div id="loading-indicator" style="display: none;">
+      <p>Please wait...</p>
+    </div>
+    <div id="error-message" class="text-red-500 mt-2" style="display: none;"></div>
+    {% if error_message %}
+    <script>
+      document.getElementById("error-message").innerHTML = "{{ error_message }}";
+      document.getElementById("error-message").style.display = "block";
+    </script>
+    {% endif %}
     {% if product %}
     <div>
       <img src="{{ product.ai_image.url }}" alt="{{ product.phrase }}" />
@@ -28,6 +38,16 @@
 </div>
 
 <script>
+  function validateForm() {
+    var userInput = document.getElementsByName("user_input")[0].value;
+    if (userInput.trim() === "") {
+      alert("Error: No phrase provided");
+      return false; 
+    }
+    document.getElementById("loading-indicator").style.display = "block"; 
+    return true; 
+  }
+
   function orderProduct() {
     const phrase = '{{ product.phrase }}'; 
     const id = '{{ product.id }}';
