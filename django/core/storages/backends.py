@@ -22,6 +22,7 @@ class DefaultACLMixin():
                 acl_options = "\n\t".join(self.CANNED_ACL_OPTIONS)
                 raise Exception(f"The default_acl of \"{_acl}\" is invalid. Please use one of the following:\n{acl_options}")
         return _acl
+    
 class MediaStorage(S3Boto3Storage):
     location = "media"
 

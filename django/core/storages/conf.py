@@ -1,8 +1,6 @@
 from core.env import config
 from django.conf import settings
 
-
-
 AWS_ACCESS_KEY_ID=config("AWS_ACCESS_KEY_ID", default=None)
 AWS_SECRET_ACCESS_KEY=config("AWS_SECRET_ACCESS_KEY", default=None)
 AWS_S3_SIGNATURE_VERSION="s3v4"

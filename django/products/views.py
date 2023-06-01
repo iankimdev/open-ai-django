@@ -117,3 +117,19 @@ def product_attachment_download(request, handle=None, pk=None):
     response['Content-Disposition'] = f'attachment;filename={filename}'
     return response
 
+
+######### NOT USED ###########
+'''
+def products_create(request):
+    context = {}
+    form = ProductForm(request.POST or None)
+    if form.is_valid():
+        product = form.save(commit=False)
+        if request.user.is_authenticated:
+            product.user = request.user
+            product.save()
+            return redirect(product.get_manage_url())
+        form.add_error(None, "Your must be logged in to create products.")
+    context['form'] = form
+    return render(request, 'products/create.html', context)
+'''
