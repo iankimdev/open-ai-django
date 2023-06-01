@@ -13,7 +13,7 @@ from urllib.parse import unquote
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 
-@login_required
+
 def products_list(request):
     products_list = Product.objects.all()
     return render(request, 'products/list.html', {"products_list":products_list})
