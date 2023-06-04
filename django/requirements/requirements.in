@@ -8,3 +8,5 @@ boto3
 django-storages
 openai==0.27.7
 djangorestframework==3.14.0
+gunicorn
+django-cors-headers
