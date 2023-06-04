@@ -23,11 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("DJANGO_SECRET_KEY", default=None)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = SECRET_KEY = config("DJANGO_DEBUG", cast=bool, default=False)
 
 ALLOWED_HOSTS = []
-
-
+ALLOWED_HOST = config("ALLOWED_HOST", cast=str, default="")
+if ALLOWED_HOST:
+    ALLOWED_HOSTS.append(ALLOWED_HOST.strip())
 # Application definition
 
 INSTALLED_APPS = [
@@ -92,7 +93,7 @@ DATABASES = {
 }
 '''
 
-from .db import * 
+from .db import * #noqa
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -127,10 +128,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "local-cdn" / "static"
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "local-cdn" / "media"
 PROTECTED_MEDIA_ROOT = BASE_DIR / "local-cdn" / "protected"
 
@@ -153,15 +154,10 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
-    'DEFAULT_PARSER_CLASSES': [
+    'DEFAULT_PARSER_CLASSES': [ 
         'rest_framework.parsers.JSONParser',
     ],
 }
 
-
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-]
