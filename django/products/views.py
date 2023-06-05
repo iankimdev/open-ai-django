@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from urllib.parse import unquote
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
-
+from rest_framework.exceptions import ValidationError
 
 def products_list(request):
     products_list = Product.objects.all()
@@ -27,7 +27,9 @@ def products_create(request):
         handle=request.data.get('handle')
         dalle_image = get_object_or_404(DalleImage, id=id)
         price = 9.99
-
+         # Validate handle length
+        if len(handle) > 255:
+            raise ValidationError("Dalle phrase length should be less than or equal to 255 characters.")
         product = Product.objects.create(
             image=dalle_image.ai_image,
             name=phrase,

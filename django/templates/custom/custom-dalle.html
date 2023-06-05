@@ -73,6 +73,7 @@
         window.location.href = redirect_url;
         console.log("Order placed successfully.");
       } else {
+        alert("Dalle phrase length should be less than or equal to 255 characters."); 
         console.log("Failed to place order.");
       }
     })
