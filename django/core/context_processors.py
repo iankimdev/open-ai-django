@@ -1,7 +1,11 @@
 import boto3
-
+from django.conf import settings
 def vendor_files(request):
-    s3 = boto3.client('s3')
+    s3 = boto3.client(
+        's3',
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
+    )
     bucket_name = 'ai-gallery'
     vendor_dir = 'static/vendor'  # S3 버킷 내 정적 파일 디렉토리 경로
 
