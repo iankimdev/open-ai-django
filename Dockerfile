@@ -13,7 +13,8 @@ RUN apt-get update && \
     python3-setuptools \
     libpq-dev \
     gcc \
-    make
+    make \
+    nginx
 
 # venv & installs
 RUN python3 -m venv /opt/venv && \
