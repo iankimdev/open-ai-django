@@ -1,5 +1,5 @@
 import mimetypes, random, string, json
-from django.http import FileResponse, HttpResponseBadRequest
+from django.http import FileResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 from .forms import ProductForm, ProductUpdateForm, ProductAttachmentInlineFormSet
@@ -13,6 +13,7 @@ from urllib.parse import unquote
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
+from core.storages.utils import generate_presigned_url
 
 def products_list(request):
     products_list = Product.objects.all()
@@ -107,17 +108,14 @@ def products_update(request, handle=None):
 def product_attachment_download(request, handle=None, pk=None):
     attachment = get_object_or_404(ProductAttachment, product__handle=handle, pk=pk)
     can_download = attachment.is_free or False
-    if request.user.is_authenticated:
-        can_download = True
+    if request.user.is_authenticated and can_download is False:
+        can_download = request.user.purchase_set.all().filter(product=attachment.product, completed=True).exists()
     if can_download is False:
         return HttpResponseBadRequest()
-    file = attachment.file.open(mode='rb')
-    filename = attachment.file.name
-    content_type, encoding = mimetypes.guess_type(filename)
-    response = FileResponse(file)
-    response['Content-Type'] = content_type or 'application/octet-stream'
-    response['Content-Disposition'] = f'attachment;filename={filename}'
-    return response
+    
+    file_name = attachment.file.name # .open(mode='rb') # cdn -> S3 object storage
+    file_url = generate_presigned_url(file_name)
+    return HttpResponseRedirect(file_url)
 
 
 ######### NOT USED ###########
