@@ -11,7 +11,7 @@
       <input type="text" class="form-control" name="user_input" placeholder="A sunlit indoor lounge area with a pool containing a flamingo" />
       <button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-2">Submit</button>
     </form>
-
+    
     <br />
     <div id="loading-indicator" style="display: none;">
       <p>Please wait...</p>
@@ -73,7 +73,6 @@
         window.location.href = redirect_url;
         console.log("Order placed successfully.");
       } else {
-        alert("Dalle phrase length should be less than or equal to 255 characters."); 
         console.log("Failed to place order.");
       }
     })

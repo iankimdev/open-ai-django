@@ -91,8 +91,8 @@ DATABASES = {
     }
 }
 '''
-
-from .db import * #noqa
+#postgresql
+from .db import * #noqa 
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -132,8 +132,8 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "local-cdn" / "static"
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / "local-cdn" / "media"
-PROTECTED_MEDIA_ROOT = BASE_DIR / "local-cdn" / "protected"
 
+#s3
 from core.storages.conf import * #noqa
 
 # Default primary key field type

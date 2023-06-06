@@ -28,10 +28,9 @@ def products_create(request):
         handle=request.data.get('handle')
         dalle_image = get_object_or_404(DalleImage, id=id)
         price = 9.99
-         # Validate handle length
-        if len(handle) > 255:
-            raise ValidationError("Dalle phrase length should be less than or equal to 255 characters.")
-        product = Product.objects.create(
+         # Validate handle length      
+          
+        Product.objects.create(
             image=dalle_image.get_image_url(),
             name=phrase,
             handle=handle,
@@ -119,17 +118,18 @@ def product_attachment_download(request, handle=None, pk=None):
 
 
 ######### NOT USED ###########
-'''
-def products_create(request):
-    context = {}
-    form = ProductForm(request.POST or None)
-    if form.is_valid():
-        product = form.save(commit=False)
-        if request.user.is_authenticated:
-            product.user = request.user
-            product.save()
-            return redirect(product.get_manage_url())
-        form.add_error(None, "Your must be logged in to create products.")
-    context['form'] = form
+
+def products_create_(request):
+    if request.method == 'POST':
+        context = {}
+        form = ProductForm(request.POST or None)
+        if form.is_valid():
+            product = form.save(commit=False)
+            if request.user.is_authenticated:
+                product.user = request.user
+                product.save()
+                return redirect(product.get_manage_url())
+            form.add_error(None, "Your must be logged in to create products.")
+        context['form'] = form
     return render(request, 'products/create.html', context)
-'''
+

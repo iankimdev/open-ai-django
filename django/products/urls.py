@@ -11,4 +11,5 @@ urlpatterns = [
     path('<slug:handle>/update/', views.products_update, name='update'),
     path('<slug:handle>/download/<int:pk>', views.product_attachment_download, name='download'),
     
+    
 ]
