@@ -2,7 +2,7 @@
     {% if product.image %}
         <a href="/products/{{ product.handle }}/">
             
-            <img class="w-full md:w-64 rounded-lg sm:rounded-none sm:rounded-l-lg" src="{{product.image.url}}" alt="{{product.name}} ">
+            <img class="w-full md:w-64 rounded-lg sm:rounded-none sm:rounded-l-lg" src="{{ product.get_image_url }}" alt="{{product.name}} ">
         </a>
     {% endif %}
     <div class="p-5">
@@ -16,6 +16,6 @@
 </div> 
 
 <script>
-
+console.log( product.get_image_url )
 
 </script>

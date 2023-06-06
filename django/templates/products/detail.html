@@ -27,7 +27,7 @@
         {% if object.image %}
             <div class="grid gap-4">
                 <div>
-                    <img class="h-auto max-w-full rounded-lg" src="{{object.image.url}}" alt="">
+                    <img class="h-auto max-w-full rounded-lg" src="{{object.get_image_url}}" alt="">
                 </div>
 
             </div>

@@ -11,3 +11,8 @@ class DalleImage(models.Model):
     
     def get_download_url(self):
         return reverse("dalle:download_image", args=[self.id])
+    
+    def get_image_url(self):
+        if self.ai_image:
+            return self.ai_image.url
+        return ''

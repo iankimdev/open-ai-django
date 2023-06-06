@@ -31,7 +31,7 @@ def products_create(request):
         if len(handle) > 255:
             raise ValidationError("Dalle phrase length should be less than or equal to 255 characters.")
         product = Product.objects.create(
-            image=dalle_image.ai_image,
+            image=dalle_image.get_image_url(),
             name=phrase,
             handle=handle,
             price=price,

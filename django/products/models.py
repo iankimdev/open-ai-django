@@ -35,6 +35,11 @@ class Product(models.Model):
     def display_price(self):
         return self.price
     
+    def get_image_url(self):
+        if self.image:
+            return self.image.url
+        return ''
+    
     def __str__(self):
         return self.display_name
 
