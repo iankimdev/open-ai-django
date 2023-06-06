@@ -19,7 +19,7 @@ class Product(models.Model):
     stripe_product_id = models.CharField(max_length=220, blank=True, null=True)
     image = models.ImageField(upload_to="products/", blank=True, null=True)
     name = models.CharField(max_length=200)
-    handle = models.SlugField(unique=True, max_length=255)
+    handle = models.SlugField(unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=9.99)
     og_price = models.DecimalField(max_digits=10, decimal_places=2, default=9.99)
     stripe_price_id = models.CharField(max_length=220, blank=True, null=True)
@@ -37,7 +37,7 @@ class Product(models.Model):
     
     def get_image_url(self):
         if self.image:
-            return self.image.url
+            return self.image
         return ''
     
     def __str__(self):
