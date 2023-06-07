@@ -115,21 +115,3 @@ def product_attachment_download(request, handle=None, pk=None):
     file_name = attachment.file.name # .open(mode='rb') # cdn -> S3 object storage
     file_url = generate_presigned_url(file_name)
     return HttpResponseRedirect(file_url)
-
-
-######### NOT USED ###########
-
-def products_create_(request):
-    if request.method == 'POST':
-        context = {}
-        form = ProductForm(request.POST or None)
-        if form.is_valid():
-            product = form.save(commit=False)
-            if request.user.is_authenticated:
-                product.user = request.user
-                product.save()
-                return redirect(product.get_manage_url())
-            form.add_error(None, "Your must be logged in to create products.")
-        context['form'] = form
-    return render(request, 'products/create.html', context)
-
