@@ -1,14 +1,14 @@
 version: "3.8"
-name: ai-gallery-prod
+name: ai-gallery
 services:
   django:
-    container_name: ai-gallery-prod
+    container_name: django
     env_file:
       - .env-prod
     build:
       context: .
       dockerfile: Dockerfile
-    image: ai-gallery-django-prod
+    image: django
     ports:
       - "8002:8000"
   nginx:
@@ -16,7 +16,7 @@ services:
     build:
       context: .
       dockerfile: nginx/Dockerfile
-    image: ai-gallery-nginx-prod
+    image: nginx
     ports:
       - "80:80"
     depends_on:
