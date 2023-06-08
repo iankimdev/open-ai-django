@@ -10,10 +10,11 @@ import stripe
 from core.env import config
 STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY", default=None)
 stripe.api_key = STRIPE_SECRET_KEY
-BASE_ENDPOINT = "http://127.0.0.1:8000"
 
 @login_required
 def purchase_start_view(request):
+    BASE_ENDPOINT = f'http://{request.get_host()}'
+    
     if not request.method == "POST":
         return HttpResponseBadRequest()
     if not request.user.is_authenticated:
