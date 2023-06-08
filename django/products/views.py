@@ -29,7 +29,9 @@ def products_create(request):
         dalle_image = get_object_or_404(DalleImage, id=id)
         price = 9.99
          # Validate handle length      
-          
+        if len(handle) > 255:
+            error_message = "Dalle phrase length should be less than or equal to 255 characters."
+            raise ValidationError(error_message)
         Product.objects.create(
             image=dalle_image.get_image_url(),
             name=phrase,
