@@ -23,7 +23,7 @@ scripts:
   
   build: docker compose up --build
   build_push: 
-    - docker build --platform=linux/amd64 -f Dockerfile -t iankimdev/ai-gallery-django-prod .
-    - docker push iankimdev/ai-gallery-django-prod
-    - docker build --platform=linux/amd64 -f nginx/Dockerfile -t iankimdev/ai-gallery-nginx-prod .
-    - docker push iankimdev/ai-gallery-nginx-prod
+    - docker build --platform=linux/amd64 -f Dockerfile -t iankimdev/django .
+    - docker push iankimdev/django
+    - docker build --platform=linux/amd64 -f nginx/Dockerfile -t iankimdev/nginx .
+    - docker push iankimdev/nginx
