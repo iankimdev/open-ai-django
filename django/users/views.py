@@ -64,24 +64,27 @@ def signout(request):
     logout(request)
     return redirect('/')
 
+
 @csrf_exempt
 @login_required
 @api_view(['GET', 'PUT'])
 def profile(request):
-    
     user = request.user
     try:
         profile = Profile.objects.get(user=user)
     except Profile.DoesNotExist:
         profile = None
-    
+
     if request.method == 'PUT':
         user_serializer = UpdateUserSerializer(data=request.data, instance=user)
         profile_serializer = UpdateProfileSerializer(data=request.data, instance=profile)
 
         if user_serializer.is_valid() and profile_serializer.is_valid():
             user_serializer.save()
-            profile_serializer.save()
+            if not profile:
+                profile = Profile(user=user) 
+            profile.address = profile_serializer.validated_data.get('address')
+            profile.save()
             return Response({'success': True, 'message': 'Your profile is updated successfully'}, status=status.HTTP_200_OK)
         else:
             return Response({'success': False, 'errors': user_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
