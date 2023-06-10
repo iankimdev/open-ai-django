@@ -1,19 +1,18 @@
-import pathlib
+import pathlib, stripe
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.core.files.storage import FileSystemStorage
 from core.storages.backends import ProtectedFileStorage
 from django.urls import reverse
-
-import stripe
 from core.env import config
+
 STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY", default=None)
 stripe.api_key = STRIPE_SECRET_KEY
 
 PROTECTED_MEDIA_ROOT = settings.PROTECTED_MEDIA_ROOT
 protected_storage = ProtectedFileStorage()
-# Create your models here.
+
 class Product(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     stripe_product_id = models.CharField(max_length=220, blank=True, null=True)
@@ -70,7 +69,6 @@ class Product(models.Model):
         super().save(*args, **kwargs)
     
     def get_absolute_url(self):
-        #return f"/products/{self.handle}/"
         return reverse("products:detail", kwargs={"handle": self.handle})
     
     def get_manage_url(self):
@@ -79,7 +77,6 @@ class Product(models.Model):
 def handle_product_attachment_upload(instance, filename):
     return f"products/{instance.product.handle}/attachments/{filename}"
 
-        
 class ProductAttachment(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     file = models.FileField(upload_to=handle_product_attachment_upload, storage=protected_storage)
@@ -99,5 +96,4 @@ class ProductAttachment(models.Model):
         return self.name or pathlib.Path(self.file.name).name
     
     def get_download_url(self):
-        #return f"/products/{self.handle}/download/{self.pk}"
         return reverse("products:download", kwargs={"handle": self.product.handle, "pk":self.pk})

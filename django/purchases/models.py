@@ -1,8 +1,6 @@
 from django.db import models
 from django.conf import settings
-
 from products.models import Product
-# Create your models here.
 
 class Purchase(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)

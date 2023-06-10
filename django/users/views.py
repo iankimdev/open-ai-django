@@ -1,28 +1,19 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, get_user_model
-from django.urls import reverse_lazy
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from .forms import SignUpForm, SignInForm, UpdateUserForm, UpdateProfileForm
-from django.contrib.auth.views import PasswordChangeView
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import View
-from django.views.generic.edit import DeleteView
-from django.http import JsonResponse, HttpResponseRedirect
-from django.contrib.auth import get_user_model
-from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import Profile
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserSerializer, SignInSerializer, ProfileSerializer, UpdateProfileSerializer, UpdateUserSerializer, ChangePasswordSerializer
 from rest_framework.views import APIView
 
-
 User = get_user_model()
-
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
@@ -93,8 +84,6 @@ def profile(request):
         profile_serializer = ProfileSerializer(instance=profile)
     return render(request, 'users/profile.html', {'user_data': user_serializer.data, 'profile_data': profile_serializer.data})
 
-
-
 class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, APIView):
     
     def get(self, request, *args, **kwargs):
@@ -127,7 +116,6 @@ class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, APIView):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    
 class DeleteUserView(LoginRequiredMixin, SuccessMessageMixin, APIView):
 
     def get(self, request, *args, **kwargs):

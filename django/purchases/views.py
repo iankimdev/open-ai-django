@@ -1,7 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
-# Create your views here.
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from products.models import Product
 from .models import Purchase
@@ -75,7 +74,6 @@ def purchase_stopped_view(request):
         del request.session['purchase_id']
         return HttpResponseRedirect(purchase.product.get_absolute_url())
     return HttpResponse("Stopped")
-
 
 @login_required
 def purchase_list_view(request):

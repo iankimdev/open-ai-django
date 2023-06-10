@@ -44,6 +44,6 @@ def generate_image(request):
                 dalle.save()
             except openai_error.InvalidRequestError as e:
                 if str(e) == "Billing hard limit has been reached":
-                    error_message = "OPEN AI's usage limit has been reached. Please contact support for assistance. OPEN AI의 사용량이 초과하였습니다. 저에게 알려주시면 처리하겠습니다."
+                    error_message = "OPEN AI's usage limit has been reached. Please contact support for assistance. OPEN AI의 사용량이 초과하였습니다."
                     return render(request, "custom/custom-dalle.html", {"error_message": error_message})
     return render(request, "custom/custom-dalle.html", {"product": dalle})

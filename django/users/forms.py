@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django import forms
 from .models import Profile
 
-
 class SignUpForm(UserCreationForm):
     password1 = forms.CharField(
         label="Password",
@@ -26,7 +25,6 @@ class SignUpForm(UserCreationForm):
 class SignInForm(forms.Form):
     username = forms.CharField(label='Username', max_length=150)
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
-
 
 class UpdateUserForm(forms.ModelForm):
     username = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))

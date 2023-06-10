@@ -1,16 +1,13 @@
-import mimetypes, random, string, json
 from django.http import FileResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-# Create your views here.
 from .forms import ProductForm, ProductUpdateForm, ProductAttachmentInlineFormSet
 from .models import Product, ProductAttachment
 from django.contrib.auth.decorators import login_required
 from dalle.models import DalleImage
 from .models import Product
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from urllib.parse import unquote
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from core.storages.utils import generate_presigned_url
@@ -34,7 +31,7 @@ def products_create(request):
         handle=request.data.get('handle')
         dalle_image = get_object_or_404(DalleImage, id=id)
         price = 9.99
-         # Validate handle length      
+        
         if len(handle) > 255:
             error_message = "Dalle phrase length should be less than or equal to 255 characters."
             raise ValidationError(error_message)
@@ -76,7 +73,7 @@ def products_update(request, handle=None):
     is_manager = False
     if request.user.is_authenticated:
         is_manager = product.user == request.user
-    context = {"object": product, "is_manager": is_manager}  # Add "handle" to the context
+    context = {"object": product, "is_manager": is_manager}
     if not is_manager:
         return HttpResponseBadRequest()
     

@@ -44,7 +44,7 @@
       return;
     }
 
-    fetch('/users/signin/', { // Replace with the actual URL of your signin API endpoint
+    fetch('/users/signin/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -55,7 +55,7 @@
       .then(response => response.json())
       .then(data => {
         if (data.message === 'Login successful') {
-          window.location.href = "/"; // Replace with the actual URL where you want to redirect after successful signin
+          window.location.href = "/";
         } else {
           const errorMessage = document.getElementById('error-message');
           errorMessage.textContent = 'Invalid username or password. Please try again.';
@@ -67,7 +67,6 @@
       });
   }
 
-  // CSRF token from cookie.
   function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
