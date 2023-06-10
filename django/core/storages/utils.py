@@ -17,6 +17,6 @@ def generate_presigned_url(filepath, location = "protected"):
             "Key": object_storage_key,
             "ResponseContentDisposition": "attachment"
         },
-        ExpiresIn=3600, # URL ends in 1 hour
+        # ExpiresIn=3600, # URL ends in 1 hour
     )
     return url
