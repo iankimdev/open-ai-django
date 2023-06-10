@@ -60,6 +60,11 @@ def products_delete(request, handle):
 def products_detail(request, handle=None):
     product = get_object_or_404(Product, handle=handle)
     attachments = ProductAttachment.objects.filter(product=product)
+
+    url = str(product.image)
+    url_without_query = url.split('?')[0]
+    product.image = url_without_query
+    
     is_purchased = False
     if request.user.is_authenticated:
         is_purchased = request.user.purchase_set.all().filter(product=product, completed=True).exists()
