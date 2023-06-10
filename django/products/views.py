@@ -17,7 +17,13 @@ from core.storages.utils import generate_presigned_url
 
 def products_list(request):
     products_list = Product.objects.all()
-    return render(request, 'products/list.html', {"products_list":products_list})
+    
+    for product in products_list:
+        url = str(product.image)
+        url_without_query = url.split('?')[0]
+        product.image = url_without_query
+
+    return render(request, 'products/list.html', {"products_list": products_list})
 
 @login_required
 @api_view(['POST'])
