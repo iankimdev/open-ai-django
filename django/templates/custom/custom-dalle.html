@@ -51,8 +51,7 @@
   function orderProduct() {
     const phrase = '{{ product.phrase }}'; 
     const id = '{{ product.id }}';
-    const handle = phrase.replace(/ /g, "-") + id;
-
+    const handle = phrase.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9-]/g, ""); + id;
     const url = `/products/order/`;
     const redirect_url = `/products/${handle}/`;
     const data = {
