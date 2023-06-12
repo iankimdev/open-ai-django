@@ -6,7 +6,7 @@ openai.api_key = api_key
 
 def chatbot(request):
     chatbot_response = None
-    print("request", request)
+    
     if request.method == 'POST':
         openai.api_key = api_key
         prompts = request.POST.get('text')
