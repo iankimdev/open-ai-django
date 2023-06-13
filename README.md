@@ -28,9 +28,10 @@ djangorestframework 3.14.0<br>
 stripe 5.4.0<br>
 openai 0.27.7<br>
 gunicorn 20.1.0 <br>
+nginx 1.19.0-alpine<br>
 boto3 1.26.137 <br>
-AWS EC2/S3/RDS <br>
 Docker <br>
+AWS EC2/S3/RDS <br>
 
 ## 프로젝트 구조
 <details>
