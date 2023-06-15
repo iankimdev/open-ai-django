@@ -1,8 +1,7 @@
 이스트소프트의 백엔드 부트캠프에 참여하며 AI에 관심을 가지고 만든 `chatGPT`와 `DALLE`를 활용한 AI 이미지 주문/제작 이커머스입니다.
 
 ## 배포 URL
-http://ec2-3-39-15-18.ap-northeast-2.compute.amazonaws.com:8002/
-
+http://3.39.15.18:8002
 ```
 <testuser>
 username : public
@@ -155,7 +154,7 @@ AWS EC2/S3/RDS <br>
 ├── package.json
 ├── rav.yaml
 ├── tailwind.config.js
-└── venv 입력하세요
+└── venv
 ```
 </details>
 
@@ -1000,7 +999,7 @@ AWS자격증명을 지운 수정된 product.image<br>
 ## 개선점
 1. 매니저 권한의 가격 설정 도입
 2. 결제 api 모듈의 다양화
-3. chatbot의 최적화
+3. chatbot의 최적화(응답 길이, 응답 방향 등)
 4. 서버 최적화(로딩 속도)
 
 
