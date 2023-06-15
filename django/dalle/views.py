@@ -1,25 +1,14 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
-import openai, os, requests, openai.error
+from django.shortcuts import render
+import openai, requests, openai.error
 from django.core.files.base import ContentFile
 from .models import DalleImage
 from django.contrib.auth.decorators import login_required
 from core.env import config
-from rest_framework.decorators import api_view
 from openai import error as openai_error
 
 # Create your views here.
 api_key= config("OPENAI_KEY", default=None)
 openai.api_key = api_key
-
-def download_image(request, image_id):
-    image = get_object_or_404(DalleImage, id=image_id)
-    file_path = image.ai_image.path
-
-    with open(file_path, "rb") as f:
-        response = HttpResponse(f.read(), content_type="image/jpeg")
-        response["Content-Disposition"] = f"attachment; filename={image.ai_image.name}"
-        return response
 
 @login_required
 def generate_image(request):
