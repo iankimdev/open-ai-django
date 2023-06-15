@@ -8,15 +8,11 @@
         <h2 class="text-4xl font-bold dark:text-white">{{ product.name }}</h2>
         <p class="mb-3 font-light text-gray-500 dark:text-gray-400 first-line:uppercase first-line:tracking-widest first-letter:text-7xl first-letter:font-bold first-letter:text-gray-900 dark:first-letter:text-gray-100 first-letter:mr-3 first-letter:float-left">CREATED AN IMAGE BY OPEN AI </p>
         <p class="font-light text-gray-500 dark:text-gray-400">If you want to this product, Buy now</p>
-
-        
-        <!-- {% include 'products/attachments-table.html' with attachments=attachments is_purchased=is_purchased%} -->
         
     </div>
 
     <div class="w-full md:w-1/4 space-y-4">
         <!-- sidebar -->
-        
         {% if is_purchased %}
         <p>You already purchased this product.<p>
         {% else %}
