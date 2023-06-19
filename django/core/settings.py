@@ -71,7 +71,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'core.context_processors.vendor_files',
             ],
         },
     },
@@ -124,7 +123,6 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "local-cdn" / "static"
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / "local-cdn" / "media"
-PROTECTED_MEDIA_ROOT = BASE_DIR / "local-cdn" / "protected"
 #s3
 from core.storages.conf import * #noqa
 

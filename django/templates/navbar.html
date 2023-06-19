@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="/">AI GALLERY</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-default">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/products/">GALLERY</a>
+        </li>
+        {% if not user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="/users/signup/">SIGN UP</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/users/signin/">SIGN IN</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="/dalle/custom/">DALLE</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/purchases/my-orders/">MY ORDER</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/users/profile/">PROFILE</a>
+        </li>
+        {% if user.is_superuser %}
+        <li class="nav-item">
+          <a class="nav-link" href="/purchases/list/">ORDERED</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="/users/signout/">SIGN OUT</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/chatbot/chatbot/">CONTACT</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
