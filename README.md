@@ -1,12 +1,7 @@
 이스트소프트의 백엔드 부트캠프에 참여하며 AI에 관심을 가지고 만든 `chatGPT`와 `DALLE`를 활용한 AI 이미지 주문/제작 이커머스입니다.
 
 ## 배포 URL
-http://3.39.15.18:8002
-```
-<testuser>
-username : public
-password : password123
-```
+http://13.125.33.210:8002
   
 ## 목표
 자신이 원하는 이미지를 AI로 주문 제작하여 미술품으로 집으로 배송받을 수 있는 서비스
@@ -33,10 +28,6 @@ Docker <br>
 AWS EC2/S3/RDS <br>
 
 ## 프로젝트 구조
-<details>
-<summary>트리</summary>
-
-<!-- summary 아래 한칸 공백 두어야함 -->
 
 ```
 ├── django
@@ -52,14 +43,12 @@ AWS EC2/S3/RDS <br>
 │   │   └── entrypoint.sh
 │   ├── core
 │   │   ├── asgi.py
-│   │   ├── context_processors.py
 │   │   ├── db.py
 │   │   ├── env.py
 │   │   ├── settings.py
 │   │   ├── storages
 │   │   │   ├── backends.py
-│   │   │   ├── conf.py
-│   │   │   └── utils.py
+│   │   │   └── conf.py
 │   │   ├── urls.py
 │   │   ├── views.py
 │   │   └── wsgi.py
@@ -95,14 +84,6 @@ AWS EC2/S3/RDS <br>
 │   │   └── requirements.in
 │   ├── requirements.txt
 │   ├── static
-│   │   ├── css
-│   │   │   └── output.css
-│   │   ├── tailwind
-│   │   │   └── tailwind-input.css
-│   │   └── vendor
-│   │       ├── flowbite
-│   │       └── htmx
-│   │           └── htmx.min.js
 │   ├── templates
 │   │   ├── admin
 │   │   │   └── change_form.html
@@ -150,90 +131,32 @@ AWS EC2/S3/RDS <br>
 ├── nginx
 │   ├── Dockerfile
 │   └── default.conf
-├── package-lock.json
-├── package.json
-├── rav.yaml
-├── tailwind.config.js
 └── venv
 ```
-</details>
 
 
 
+## UI 
 
-## UI / BM
-<details>
-<summary>User Interface</summary>
+<br>
 
-<!-- summary 아래 한칸 공백 두어야함 -->
-### Home
-![](https://velog.velcdn.com/images/iankimdev/post/fdd29ab4-4579-405a-93c0-69816bb032c5/image.png)
-### 회원가입
-![](https://velog.velcdn.com/images/iankimdev/post/e08cbe7f-643e-4ec1-b301-90d646a7187e/image.png)
-### 로그인
-![](https://velog.velcdn.com/images/iankimdev/post/aebae044-1ae1-4807-8bd6-2ba3db0efa0c/image.png)
-### 주문
-![](https://velog.velcdn.com/images/iankimdev/post/5cf64947-c69f-4290-bdd3-b73ef2cb25d5/image.png)
-![](https://velog.velcdn.com/images/iankimdev/post/751744b0-2b48-4342-98e9-4177e8896351/image.png)
-### 결제
-![](https://velog.velcdn.com/images/iankimdev/post/6b41895f-8e6d-4489-ba6c-4ddb81289c32/image.png)
-### 결제완료 및 주문내역 확인
-![](https://velog.velcdn.com/images/iankimdev/post/ea6ef01f-fb39-4246-9f8d-a8426cc1ed5d/image.png)
-![](https://velog.velcdn.com/images/iankimdev/post/3cfe41d0-67e6-45e9-a041-e4c716eff7e8/image.png)
-### 모든 주문 목록 확인(매니저 권한)
-![](https://velog.velcdn.com/images/iankimdev/post/7d2df4be-473c-4422-8d2f-ec56ea7a541c/image.png)
-### 갤러리 (유저들이 주문제작한 이미지들)
-![](https://velog.velcdn.com/images/iankimdev/post/91f50d68-e4ca-4315-8498-c75e0308e445/image.png)
-### 챗봇 고객센터
-![](https://velog.velcdn.com/images/iankimdev/post/4b7d1395-ba09-4b3c-8164-fb986102c001/image.png)
-</details>
+#### [DALLE로 이미지 생성]
+<img width="663" alt="Screen Shot 2023-07-02 at 16 34 53" src="https://github.com/iankimdev/AI-gallery-django/assets/120093816/ebd674e2-f137-4393-864e-5d1c5402d119">
+
+#### [주문]
+<img width="690" alt="Screen Shot 2023-07-02 at 16 33 54" src="https://github.com/iankimdev/AI-gallery-django/assets/120093816/b6664b1b-9abe-4825-9053-e6ea208edd94">
+
+#### [결제]
+<img width="685" alt="Screen Shot 2023-07-02 at 16 34 05" src="https://github.com/iankimdev/AI-gallery-django/assets/120093816/c8adb95f-4a76-40b6-95af-4b6e0bf0edc3">
+
+#### [주문 확인(유저)]
+<img width="693" alt="Screen Shot 2023-07-02 at 16 34 22" src="https://github.com/iankimdev/AI-gallery-django/assets/120093816/bbc4e738-043b-4b61-88c1-203e972eb009">
+
+#### [모든 유저의 전체 주문 확인(매니저)]
+<img width="690" alt="Screen Shot 2023-07-02 at 16 34 25" src="https://github.com/iankimdev/AI-gallery-django/assets/120093816/0cf95045-bf76-4d29-9012-adc3e7d6dedd">
 
 
-
-
-## Initial settings
-
-### 가상환경 및 패키지 관리
-Pyenv로 가상환경 버전을 관리하였으며 프로젝트의 의존성 패키지를 명시적으로 정의하기 위해 requirements.txt를 생성하였다.
-그 과정에서 rav.yaml이라는 관리 프로그램을 알게 되었고 이것을 이용하여 requirements.txt를 생성하고 여러 명령어들을 미리 셋팅해놓았다.
-
-
-### static / media setting
-초기에는 `htmx`와 `flowbite` 등 적용해보려고 했지만 `fetch`, `axios` 등으로 `AJAX`통신을 하였고 CSS는 `tailwind CSS`만 간단히 사용하였다.
-
-<details>
-<summary>Initial settings</summary>
-
-<!-- summary 아래 한칸 공백 두어야함 -->
-
-settings.py
-```python
-SECRET_KEY = config("DJANGO_SECRET_KEY", default=None)
-from .db import * 
-
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "local-cdn" / "static"
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / "local-cdn" / "media"
-```
-urls.py
-```python
-urlpatterns = [
-  ...
-]
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-```
-
-</details>
-
-
-
-static파일과 media파일을 관리하기 위해 추가하였다.
-이미지 관리를 위해 pillow 라이브러리를 사용하였다.
-
+<br>
 
 ## APPS
 
@@ -243,10 +166,7 @@ static파일과 media파일을 관리하기 위해 추가하였다.
 
 `openai`의 `Image AI`를 사용하였다. `openai`에서 `secretkey`를 생성하고 `api`를 요청하면 `DALLE`를 사용할 수 있다.
 유저가 입력하는 text인 `phrase`와 생성되는 이미지인 `ai_image`를 `DB 테이블`로 사용하였다.
-<details>
-<summary>views.py</summary>
 
-<!-- summary 아래 한칸 공백 두어야함 -->
 ```python
 @login_required
 def generate_image(request):
@@ -275,7 +195,6 @@ def generate_image(request):
                     return render(request, "custom/custom-dalle.html", {"error_message": error_message})
     return render(request, "custom/custom-dalle.html", {"product": dalle})
 ```
-</details>
 
 
 
@@ -286,10 +205,7 @@ def generate_image(request):
 달리가 이미지를 생성하면 이커머스 관리자가 다운로드 받아서 그것을 상품으로 올려 판매하는 것을 생각하고 Views.py를 만들었다. <br>
 그러나 이런 방식이 비효율적이라고 생각했기 때문에 이 모듈은 더 이상 사용하지 않고 유저가 직접 원하는 이미지를 `커스텀`으로 만들어서 그것을 바로 주문하는 것으로 변경하였다.<br>
 `handle`을 `uinque`로 두어서 `slug`로 사용했다.<br>
-<details>
-<summary>models.py</summary>
 
-<!-- summary 아래 한칸 공백 두어야함 -->
 ```python
 class Product(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
@@ -310,12 +226,8 @@ class Product(models.Model):
     (생략)
     
 ```
-</details>
 
-<details>
-<summary>views.py</summary>
 
-<!-- summary 아래 한칸 공백 두어야함 -->
 ```python
 def products_list(request):
     products_list = Product.objects.all()
@@ -354,13 +266,10 @@ def products_create(request):
     (생략)
     
 ```
-</details>
+
 
 ### Purchases (결제)
-<details>
-<summary>models.py</summary>
 
-<!-- summary 아래 한칸 공백 두어야함 -->
 ```python
 class Purchase(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
@@ -370,7 +279,6 @@ class Purchase(models.Model):
     stripe_price = models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now_add=True)
 ```
-</details>
 
 
 
@@ -379,10 +287,7 @@ class Purchase(models.Model):
 `고객센터`를 생각하고 `OpenAI`의 `챗봇`을 연결해두었다. 실제로 고객센터의 기능은 하지 않지만 고객센터 역할을 하는 챗봇이 모델링 된다면 바로 연결해서 쓸 수 있게 백엔드를 구현해두었다.
 챗봇의 엔진은 `chatgpt`의 예전 모델인 `text-davinchi-003`이다. 
 
-<details>
-<summary>views.py</summary>
 
-<!-- summary 아래 한칸 공백 두어야함 -->
 ```python 
 api_key= config("OPENAI_KEY", default=None)
 openai.api_key = api_key
@@ -406,7 +311,6 @@ def chatbot(request):
         chatbot_response = response["choices"][0]["text"]
     return render(request, 'contact.html', {"response":chatbot_response})
 ```    
-</details>
 
 
 
@@ -431,10 +335,7 @@ AWS_SECRET_ACCESS_KEY='......'
 
 `env.py`를 만들고 `python-decouple`라이브러리를 사용하여 `.env` 와 환경변수를 외부에서 로드할 수 있도록 하였다.
 
-<details>
-<summary>env.py</summary>
 
-<!-- summary 아래 한칸 공백 두어야함 -->
 ```python
 from functools import lru_cache
 from pathlib import Path
@@ -453,7 +354,7 @@ def get_config():
 
 config = get_config()
 ```
-</details>
+
 
 
 
@@ -464,10 +365,6 @@ config = get_config()
 `PostgreSQL` 데이터베이스를 사용하기로 하였다. 
 `PostgreSQL` 를 연결할 수 있는 라이브러리인 `psycopg2`를 사용하였고 `psycopg2`는 에러가 나서 `psycopg2-binary` 라이브러리를 사용해 연결과 쿼리 실행을 처리했다.
 
-<details>
-<summary>db.py</summary>
-
-<!-- summary 아래 한칸 공백 두어야함 -->
 ```python
 from core.env import config
 import dj_database_url
@@ -482,7 +379,7 @@ if DATABASE_URL is not None:
     )
 }
 ```
-</details>
+
 
 
 기존에는 serverless neon postgresql을 사용하였다. <br>
@@ -491,68 +388,12 @@ postgresql를 설치 후 Amazon RDS에 올렸다.<br>
 
 ## AWS
 
-
-### IAM
-Root user를 만들고, AWS_ACCESS_KEY_IDdhk AWS_SECRET_ACCESS_KEY를 발급 받았다.<br>
-권한 정책으로 AmazonS3FullAccess를 두었다. <br>
-
 ### S3
 `정적파일`을 따로 관리하고 달리로 생성되는 이미지인 `미디어파일`을 관리하기 위해 `스토리지`의 필요성을 느꼈다. <br>
 `boto3`, `django-storages` 라이브러리를 통해 AWS S3을 Django와 연결하였다. <br>
 s3에서 정적호스팅을 활성화하고 퍼블릭 액세스를 허용하였다.<br>
-<details>
-<summary>Public Access config</summary>
-
-<!-- summary 아래 한칸 공백 두어야함 -->
-![](https://velog.velcdn.com/images/iankimdev/post/b8aa8c1d-bd46-47cc-a56a-be0191727099/image.png)
-![](https://velog.velcdn.com/images/iankimdev/post/b5c58e6e-93f7-438f-88e4-664f009dca6b/image.png)
-![](https://velog.velcdn.com/images/iankimdev/post/8f8eb2f1-252e-4050-aefe-880f7e5a93cb/image.png)
-  
-퍼블릭 액세스에 버킷 ACL을 읽기를 부여해 두었다.<br>
-![](https://velog.velcdn.com/images/iankimdev/post/ce6d0c30-5484-4282-b6f3-619bf87eae65/image.png)
-</details>
-
-<details>
-<summary>Bucket Policy</summary>
-
-<!-- summary 아래 한칸 공백 두어야함 -->
-```
-{
-    "Version": "2008-10-17",
-    "Statement": [
-        {
-            "Sid": "PublicReadForGetBucketObjects",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
-            "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::ai-gallery/*"
-        },
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
-            "Action": [
-                "s3:PutObject",
-                "s3:GetObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::ai-gallery",
-                "arn:aws:s3:::ai-gallery/*"
-            ]
-        }
-    ]
-}
-```
-</details>
 
 
-<details>
-<summary>AWS Configuration for S3</summary>
-
-<!-- summary 아래 한칸 공백 두어야함 -->
 ```
 from core.env import config
 
@@ -579,30 +420,8 @@ class StaticFileStorage(S3Boto3Storage):
     location = "static"
 
 ```
-</details>
 
 
-
-
-### EC2
-
-인스턴스가 종료 후 재시작될 때 Public IP의 변경을 막기 위해 탄력적(엘라스틱)IP를 도입하였다. <br>
-인바운드 규칙으로 SSH, HTTP, HTTPS를 열어두었다. <br>
-플랫폼으로는 Ubuntu를 사용하였고 SSH Key pair를 발급받았다. <br>
-처음에는 SSH를 이용해 Github를 EC2에 클론하여 서버를 실행하였지만, Docker를 사용하여 컨테이너로 이미지를 실행하는 것으로 변경하였다. <br>
-
-### RDS
-
-Local에 있는 Postgresql을 AWS RDS에 올려 실행시켰다. <br>
-
-```
-brew services start postgresql
-psql -U postgres -h database.c43cpyyflb8m.ap-northeast-2.rds.amazonaws.com -p 5432
-```
-
-
-Amazon RDS 보안그룹 인바운드 규칙 생성
-![](https://velog.velcdn.com/images/iankimdev/post/bbe754c1-b5fc-436f-acc3-a4e685af0447/image.png)
 
 
 
@@ -614,10 +433,6 @@ Amazon RDS 보안그룹 인바운드 규칙 생성
 `gunicorn`은 pip패키지를 통해 설치하였고, `Dockerfile`을 통해 NGINX 웹 서버를 설치하였다. <br>
 `entrypoint.sh`에 `gunicorn`과 `nginx`를 설정했다.<br>
 
-<details>
-<summary>Dockerfile</summary>
-
-<!-- summary 아래 한칸 공백 두어야함 -->
 ```
 FROM python:3.10.6-slim
 
@@ -650,14 +465,10 @@ RUN apt-get remove -y --purge make gcc build-essential \
 RUN chmod +x ./config/entrypoint.sh
 CMD ["./config/entrypoint.sh"]
 ```
-</details>
 
 
 
-<details>
-<summary>entrypoint.sh</summary>
 
-<!-- summary 아래 한칸 공백 두어야함 -->
 ```
 #!/bin/bash
 APP_PORT=${PORT:-8000}
@@ -668,15 +479,10 @@ cd /app/
 /opt/venv/bin/gunicorn core.wsgi:application --bind "0.0.0.0:${APP_PORT}"
 nginx -g "daemon off;"
 ```
-</details>
 
 `docker-compse.yml`을 통해 django 서버와 nginx 서버 컨테이너 환경을 구성 <br>
 `default.conf`를 통해 정적파일, 미디어파일 등의 설정과 프록시 설정을 하였다. <br>
 
-<details>
-<summary>docker-compose.yml</summary>
-
-<!-- summary 아래 한칸 공백 두어야함 -->
 ```
 version: "3.8"
 name: ai-gallery
@@ -703,12 +509,8 @@ services:
       - django
 
 ```
-</details>
 
-<details>
-<summary>default.conf</summary>
 
-<!-- summary 아래 한칸 공백 두어야함 -->
 ```
 upstream django {
     server django:8002;
@@ -743,27 +545,16 @@ server {
 }
 
 ```
-</details>
-
-
-`docker image`를 `build` 후 `docker Hub`에 `push`하였다. <br>
-![](https://velog.velcdn.com/images/iankimdev/post/09133186-3a49-4ecc-bea2-91639400b8a3/image.png)
-
-EC2에서 pull로 image를 받은 후 container를 실행하였다.
 
 
 
-## 에러처리
 
+## 에러처리 기록
 
-<details>
-<summary> 프로필 페이지에서 주소를 생성할 때의 서버에러 </summary>
+<br>
 
-<!-- summary 아래 한칸 공백 두어야함 -->
+### null value in column violates not-null constraint
 
-![](https://velog.velcdn.com/images/iankimdev/post/88ba2733-bab7-4202-bbef-579c4e013aa9/image.png)
-모델을 만들 때 shell을 통해서 직접 User객체와 Profile객체를 이어주어서 에러가 없었다가 데이터베이스를 변경하고 마이그레이션 파일들을 재생성해준 후에 발견한 에러이다. 
-처음에는 유효성만 통과하면 200을 보내게 구현하였다.
 
 `models.py`
 ```python
@@ -785,7 +576,7 @@ if user_serializer.is_valid() and profile_serializer.is_valid():
             return Response({'success': True, 'message': 'Your profile is updated successfully'}, status=status.HTTP_200_OK)
 ```
 
-나중에는 기존의 user model에 address만 따로 핸들링하여 address가 없으면 생성해주고 save할 수 있게 변경해주었다.
+기존의 user model에 address만 따로 핸들링하여 address가 없으면 생성해주고 save할 수 있게 변경해주었다.
 
 
 
@@ -796,11 +587,9 @@ if not profile:
             profile.save()
             return Response({'success': True, 'message': 'Your profile is updated successfully'}, status=status.HTTP_200_OK)
 ```
-</details>
-<details>
-<summary>value too long for type character varying(50)</summary>
 
-<!-- summary 아래 한칸 공백 두어야함 -->
+
+### value too long for type character varying(50)
 
 DALLE 이미지를 만들 때 입력값은 "A sunlit indoor lounge area with a pool containing a flamingo" 였다.
 phrase는 50자를 조금 넘겼고 그래서 phrase가 50자가 넘으면 발생한다고 생각했다. model의 max_length를 변경하였지만 이번에는 다른 에러가 나왔다. 
@@ -828,14 +617,8 @@ if len(handle) > 255:
             error_message = "Dalle phrase length should be less than or equal to 255 characters."
             raise ValidationError(error_message)
 ```          
-</details>
 
-
-
-<details>
-<summary>openai : "Billing hard limit has been reached"</summary>
-
-<!-- summary 아래 한칸 공백 두어야함 -->
+### "Billing hard limit has been reached"
 
 이것은 OpenAI에서 무료 제공하는 기본 사용량을 초과할 때 발생하는 에러 메세지이다.
 개발하고 테스트를 진행하는 동안 기본 사용량을 초과하였고, 그 때문에 서버에러가 뜨기에 이 메세지를 핸들링 할 필요성을 느끼고 에러를 브라우저에 표시해주는 코드를 구현하였다.
@@ -846,45 +629,8 @@ if len(handle) > 255:
            error_message = "OPEN AI's usage limit has been reached. Please contact support for assistance.
                return render(request, "custom/custom-dalle.html", {"error_message": error_message})
 ``` 
-</details>
 
-
-<details>
-<summary>static error</summary>
-
-<!-- summary 아래 한칸 공백 두어야함 -->
-
-Static파일과 Media파일을 S3로 옮기고 처음 접한 에러였다. 로컬에서의 Static파일은 status 200이 나와 정상적으로 실행되었지만 테스트로 실행한 EC2와 Docker container에서의 실행은 status 404가 나왔다. S3 bucket이 static file을 serving 하지 못하는 현상이었다.
-S3로 변경후 staticfile을 load하는데서 aws s3 endpoint로 설정하지 않은 첫번째 문제가 있었고, EC2환경과 Docker환경에서의 Collectstatic을 해줘야하는 필요성도 있었다. 
-
-``` html
-{# COMMENT: css/output.css comes from the tailwind output #}
-<link rel="stylesheet" href="https://ai-gallery.s3.amazonaws.com/static/css/output.css" />
-
-{# COMMENT: vendor_css_files comes from core.context_processors.vendor_files #}
-{% for css_file in vendor_css_files %}
-<link rel="stylesheet" href="https://ai-gallery.s3.amazonaws.com/static/{{ css_file }}" />
-{% endfor %}
-
-{% load static %} {# COMMENT: vendor_js_files comes from core.context_processors.vendor_files #}
-{% for js_file in vendor_js_files %}
-<script src="https://ai-gallery.s3.amazonaws.com/static/{{ js_file }}" preload></script>
-{% endfor %}
-
-```  
-
-``` python
-python manage.py collectstatic
-``` 
-
-Static이 정상적으로 서빙려면 또 S3버킷에서 정적 웹호스팅을 설정해주었고  bucket policy, ACL, Public Access, 보안그룹 등 기타 설정이 필요했다. 설정들을 끝마치고 비로소 Static file이 로드되었다.
-</details>
-
-
-<details>
-<summary>media error</summary>
-
-<!-- summary 아래 한칸 공백 두어야함 -->
+### AuthorizationQueryParametersError
 
 처음엔 404에러가 나왔다. 이 문제는 자격증명 다음에 바로 서명이 나왔어야 하는데 서명의 순서가 뒤에 있어서 발생하는 문제가 있었다.
 ```
@@ -906,79 +652,20 @@ This XML file does not appear to have any style information associated with it. 
 <HostId>QQnh9RAD3EywoHXAQcDkmMKYv8nvYil8lqXehmxRhW6Ojwl32tVjm2JPd/8RvUlNm9ViajDO++Q=</HostId>
 </Error>
 ```  
-![](https://velog.velcdn.com/images/iankimdev/post/35ea96f6-410a-4d64-9a19-162d66c4d995/image.png)
 
-이 에러를 분석해보니 AWS S3에 대한 권한 및 리전 설정과 관련이 있었다. 에러 메시지에 따르면 "AuthorizationQueryParametersError"가 발생하였으며, "X-Amz-Credential" 매개변수를 파싱하는 중에 문제가 발생했다고 한다. 
+이 에러를 분석해보니 AWS S3에 대한 권한 및 리전 설정과 관련이 있었다. 에러 메시지에 따르면 "AuthorizationQueryParametersError"가 발생하였으며, "X-Amz-Credential" 매개변수를 파싱하는 중에 문제가 발생했다고 한다. 내가 실제로 지정한 리전은 `'ap-northeast-2'`였는데 오류 메시지는 올바른 리전을 예상하고 있으나 `'us-east-1'`이라는 잘못된 리전이 포함되어 있다고 언급하고 있었다. 
 
-내가 실제로 지정한 리전은 `'ap-northeast-2'`였는데 오류 메시지는 올바른 리전을 예상하고 있으나 `'us-east-1'`이라는 잘못된 리전이 포함되어 있다고 언급하고 있었다. 
-
-내 자격증명을 찬찬히 살펴보고 `AWS_S3_SIGNATURE_VERSION = "s3v4"`  와 관련이 있다는 것을 알게되었고 찾아보니 예상대로였다. 내가 사용한 ` s3v4` 는 ` us-east-1` 에 매칭되었고 나의 리전인 ` 'ap-northeast-2'` 에 매칭되는 `AWS_S3_ADDRESSING_STYLE = "virtual"` 을 사용하였다.
+내 자격증명을 살펴보고 `AWS_S3_SIGNATURE_VERSION = "s3v4"`  와 관련이 있다는 것을 알게되었고 찾아보니 예상대로였다. 내가 사용한 ` s3v4` 는 ` us-east-1` 에 매칭되었고 나의 리전인 ` 'ap-northeast-2'` 에 매칭되는 `AWS_S3_ADDRESSING_STYLE = "virtual"` 을 사용하였다.
 
 https://github.com/jschneier/django-storages/issues/782
-</details>
 
-
-
-<details>
-<summary>EC2에서 nginx 컨테이너가 실행되지 않는 문제</summary>
-
-<!-- summary 아래 한칸 공백 두어야함 -->
-docker logs nginx로 로그를 살펴보니 80번 포트를 계속 사용중이라는 에러였다. 그러나 80번을 사용하고 있는 프로세스는 없었다.
-
-의아함을 느끼다가 가상환경 버전의 문제일까 생각해보았고 초기에 로컬의 가상환경 버전은 3.11.3이었다. 그러나 AWS EC2의 가장 최신버전은 3.10.6이었다. EC2의 파이썬버전으로 로컬의 가상환경 버전을 변경하였더니 nginx 컨테이너가 실행되었다.
-
-그리고 run 명령어를 작성할 때 link를 통해 django와 nginx를 연결해주었다.
-```  
-sudo docker run -d --name nginx -p 80:80 link django iankimdev/nginx
-```  
-</details>
-
-
-<details>
-<summary>EC2에서 django 컨테이너가 실행되지 않는 문제</summary>
-
-<!-- summary 아래 한칸 공백 두어야함 -->
-![](https://velog.velcdn.com/images/iankimdev/post/e8038673-33cd-46c8-b593-9e7133557cf3/image.png)
-
-docker logs django 를 사용해 로그를 살펴보니 SECRET KEY에 관한 에러 내용이었다.
-
-SECRET KEY는 .env파일에 있었기 때문에 의아하다고 생각했고 하드코딩으로 settings.py에 적어주자 이번엔 AWS 자격증명에 관한 에러 내용이었다.
-그래서 .env파일을 읽지 못한다는 것을 알아챘고 .env를 읽을 수 있는 명령어로 컨테이너를 실행했다.
-
-
-```  
-sudo docker run -d --name django -p 8002:8000 --env-file .env-prod iankimdev/django
-sudo docker run -d --name nginx -p 80:80 --env-file .env-prod --link django iankimdev/nginx
-```  
-link라고 명시해주었다.
-
-</details>
-
-<details>
-<summary>media파일이 만료되는 문제</summary>
-
-<!-- summary 아래 한칸 공백 두어야함 -->
+### media파일이 만료되는 문제
 
 ![](https://velog.velcdn.com/images/iankimdev/post/c12fa887-1a5d-4200-a683-df4e3b720906/image.png)
-
-
 ![](https://velog.velcdn.com/images/iankimdev/post/a4e44afb-ab2e-4661-b410-a5f65db5b924/image.png)
-pre-signed url때문이었다. 우선 ExpiresIn=3600을 주석처리 하였고 product객체의 이미지에 같이 붙는 AWS자격증명을 지워주었다.
+pre-signed url때문이었다. product객체의 이미지에 같이 붙는 AWS자격증명을 지워주었다.
 
 
-``` python
-
-url = s3.generate_presigned_url(
-        ClientMethod="get_object",
-        Params = {
-            "Bucket": settings.AWS_STORAGE_BUCKET_NAME,
-            "Key": object_storage_key,
-            "ResponseContentDisposition": "attachment"
-        },
-        # ExpiresIn=3600, # URL ends in 1 hour
-    )
-    return url
-```  
 
 ``` python
 def products_list(request):
@@ -992,14 +679,24 @@ def products_list(request):
     return render(request, 'products/list.html', {"products_list": products_list})
 ```  
 product.image<br>
-AWS자격증명을 지운 수정된 product.image<br>
-![](https://velog.velcdn.com/images/iankimdev/post/f02765cb-582b-43ef-a330-399267d6677d/image.png)
-</details>
 
 ## 개선점
 1. 매니저 권한의 가격 설정 도입
 2. 결제 api 모듈의 다양화
 3. chatbot의 최적화(응답 길이, 응답 방향 등)
-4. 서버 최적화(로딩 속도)
 
+## 회고
 
+`이스트소프트의 백엔드 교육`을 들으면서 `AI`에 관심을 가졌고, `Chatbot`이나 `DALLE` 등 AI 모델을 활용한 토이 프로젝트를 만들고 싶었다. 달리나 챗봇을 사용하며 api의 키를 것들을 숨기기 위한 고민도 많았다. 깃허브에는 이러한 중요 정보들이 올라가면 안되기 때문에 gitignore와 .env파일에 대한 것들을 공부하였고 .env파일의 환경변수를 가져올 수 있는 그런 코드를 먼저 구현하였다. 데이터베이스는 현재 회사에서 자주 사용했던 PostgreSQL을 선택하고 Amazon RDS와 pgAdmin 4를 활용하였다.
+
+DALLE는 openai의 document를 보고 미리 구현해보았었다. 다른 레포지토리에 구현을 해두었었고 상품을 먼저 도입하고 달리를 그 후에 연결하기로 결정했다. 맨 처음에는 달리로 이미지를 만들면, 그 이미지를 다운로드해서 관리자가 갤러리에 진열을 해두는 것으로 기획했었다. 그래서 파일 업로드/다운로드와 첨부파일에 대한 코드를 작성을 했었다. 처음에 이 코드를 작성할 때는 formset 등 완벽하게 이해하진 못했지만 흐름을 이해하고 여러 자료들을 통해 기능이 작동하게끔 했었다. 달리의 여러 엔진 중 저렴하면서 성능이 괜찮은 버전의 엔진을 사용하였다. 달리를 통해 계속 이미지를 생성하니까 사용량이 초과하여 금액이 발생하는 상황이 있었다. Django의 Contentfile로 파일을 관리를 하고 생성된 이미지의 url은 `response["data"][0]["url"]`이다. 
+
+openAI의 대표모델인 chatGPT 또한 이용하고 싶었다. 그래서 현재의 chatGPT모델 또한 가격과 사용량이 비쌌기에 이전 모델인 text-davinchi-003 engine을 사용하였다. 고객센터를 chatGPT로 도입한다고 가정하였으나 실제 내 사이트에 맞는 고객센터용 ai모델이 아닌 openAI의 테스트모델이기 때문에 내가 원하는대로의 답변은 해주지 못하였다. 하지만 chat engine을 가져와 사용하는 백엔드를 구축하며 나중에 필요할 때 사용할 수 있는 연습을 했다고 생각한다. chatbot의 최적화 역시 현재 사이트에서 중요한 역할이 아니었기 때문에 그에 대한 리팩토링은 후순위로 미루었다.
+
+상품 모델을 구현할 때 slug를 통해 정보를 받아야겠다고 생각했고 slug로 handle을 두어 unique하게 구현하였다. Stripe결제를 사용했다. 결제 시 Stripe객체의 id값을 사용하였다. 카카오/네이버페이보다 해외 결제시스템에 대한 자료들이 더 많았고 이해하기가 쉬웠다. 우선 Stripe를 완벽히 이해하고 그 후에 카카오나 네이버페이 등을 구현하기로 결정했다.
+
+유저를 구현하면서 기본 유저모델을 사용하며 유저가 주문 배송을 받는다고 가정하고 address필드만 추가로 커스텀하였다. 기본적인 회원가입/로그인을 구현하고 프로필 페이지에서 address를 추가할 수 있도록 구현하였다. 유저의 DRF도입 후 product도 개선이 필요하다고 생각하여 DRF로 개선하였다. 하지만 product의 create나 update는 기본적인 CRUD구현이 아니라 dalle에 의한 create이며 update도 따로 할 필요가 없었기에 완전한 CRUD의 DRF 리팩토링은 아니고 필요한 부분만 개선하였다. 유저 회원가입/로그인 시 정규식을 더 적극적으로 활용하고 여러 개선해야할 점이 보였지만 DALLE와 chatbot을 활용하는게 더 중요하다고 판단하여 그에 대한 리팩토링은 후순위로 미루었다.
+
+서버는 AWS를 사용하였다. AWS에 회사에서 사용해 어느 정도 알고 있는 상태였지만 이번 프로젝트를 진행하며 조금 더 자세하게 알게 되었다. AWS에 서버를 올리기 전에 Storage의 사용이 필요하다고 생각했다. 현재 달리로 생성되는 이미지는 로컬에 지정된 경로에 생성되고 있었으며 서버에 올리면 서버에 계속 생성될 것이기 때문이다. 그리고 정적파일을 서빙하는 과정에서 WAS와 WS역할 그리고 최적화에 대해 알게 되었고 S3으로 이동하는 작업이 필요하다고 느꼈다. S3은 사용만해봤지 실제로 이동시키면서 생각하지 못했던 에러를 많이 만났다. 결국에는 다 해결하고 미디어파일과 정적파일을 S3에서 제공하였다. 그리고 Docker를 사용하여 컨테이너를 EC2 내에서 실행하였다. docker-compose.yml을 사용하여 이미지를 빌드하였고 추가로 Nginx를 통한 정적파일 관리를 하였다. 
+
+ 이 프로젝트는 팀 프로젝트 시작하는 기간에 비슷하게 맞춰 끝내고 팀 프로젝트에 집중했다. 이 개인 프로젝트 경험을 바탕으로 팀 프로젝트를 이끌었다.
