@@ -1,139 +1,20 @@
-이스트소프트의 백엔드 부트캠프에 참여하며 AI에 관심을 가지고 만든 `chatGPT`와 `DALLE`를 활용한 AI 이미지 주문/제작 이커머스입니다.
+## 프로젝트 소개
+
+`DALLE` 와 `chatGPT`를 활용한 AI 이미지 주문/제작 이커머스
+
+- 개인 프로젝트
+- OpenAI의 DALLE 엔진을 사용하여 이미지를 AI로 제작
+- OpenAI의 ChatGPT 엔진을 사용하여 chatbot을 사용하여 고객 상담 관리
 
 ## 배포 URL
-http://13.125.33.210:8002
+- http://13.125.33.210:8002
   
-## 목표
-자신이 원하는 이미지를 AI로 주문 제작하여 미술품으로 집으로 배송받을 수 있는 서비스
-
-## 기능
-
-- OpenAI의 DALLE 엔진을 사용하여 이미지를 AI로 제작
-- OpenAI의 ChatGPT 엔진을 사용하여 chatbot을 사용하여 고객상담 관리
-
-
-## 개발/서비스 배포 환경 
-
-python 3.10.6<br>
-Node.js 18.16.0<br>
-tailwindcss@3.2.7<br>
-django 4.1.8<br>
-djangorestframework 3.14.0<br>
-stripe 5.4.0<br>
-openai 0.27.7<br>
-gunicorn 20.1.0 <br>
-nginx 1.19.0-alpine<br>
-boto3 1.26.137 <br>
-Docker <br>
-AWS EC2/S3/RDS <br>
-
-## 프로젝트 구조
-
-```
-├── django
-│   ├── chatbot
-│   │   ├── admin.py
-│   │   ├── apps.py
-│   │   ├── migrations
-│   │   ├── models.py
-│   │   ├── tests.py
-│   │   ├── urls.py
-│   │   └── views.py
-│   ├── config
-│   │   └── entrypoint.sh
-│   ├── core
-│   │   ├── asgi.py
-│   │   ├── db.py
-│   │   ├── env.py
-│   │   ├── settings.py
-│   │   ├── storages
-│   │   │   ├── backends.py
-│   │   │   └── conf.py
-│   │   ├── urls.py
-│   │   ├── views.py
-│   │   └── wsgi.py
-│   ├── dalle
-│   │   ├── admin.py
-│   │   ├── apps.py
-│   │   ├── migrations
-│   │   ├── models.py
-│   │   ├── tests.py
-│   │   ├── urls.py
-│   │   └── views.py
-│   ├── manage.py
-│   ├── products
-│   │   ├── admin.py
-│   │   ├── apps.py
-│   │   ├── forms.py
-│   │   ├── migrations
-│   │   ├── models.py
-│   │   ├── serializers.py
-│   │   ├── tests.py
-│   │   ├── urls.py
-│   │   ├── utils.py
-│   │   └── views.py
-│   ├── purchases
-│   │   ├── admin.py
-│   │   ├── apps.py
-│   │   ├── migrations
-│   │   ├── models.py
-│   │   ├── tests.py
-│   │   ├── urls.py
-│   │   └── views.py
-│   ├── requirements
-│   │   └── requirements.in
-│   ├── requirements.txt
-│   ├── static
-│   ├── templates
-│   │   ├── admin
-│   │   │   └── change_form.html
-│   │   ├── base
-│   │   │   ├── css.html
-│   │   │   ├── footer.html
-│   │   │   ├── js.html
-│   │   │   └── navbar.html
-│   │   ├── base.html
-│   │   ├── contact.html
-│   │   ├── custom
-│   │   │   └── custom-dalle.html
-│   │   ├── home.html
-│   │   ├── products
-│   │   │   ├── attachments-table.html
-│   │   │   ├── create.html
-│   │   │   ├── delete.html
-│   │   │   ├── detail.html
-│   │   │   ├── list-card.html
-│   │   │   ├── list.html
-│   │   │   └── manager.html
-│   │   ├── purchases
-│   │   │   ├── buy-btn-form.html
-│   │   │   ├── list.html
-│   │   │   └── my-order.html
-│   │   └── users
-│   │       ├── delete.html
-│   │       ├── password-change.html
-│   │       ├── profile.html
-│   │       ├── signin.html
-│   │       └── signup.html
-│   └── users
-│       ├── admin.py
-│       ├── apps.py
-│       ├── migrations
-│       ├── forms.py
-│       ├── migrations
-│       ├── models.py
-│       ├── serializers.py
-│       ├── tests.py
-│       ├── urls.py
-│       └── views.py
-├── docker-compose.yml
-├── Dockerfile
-├── nginx
-│   ├── Dockerfile
-│   └── default.conf
-└── venv
-```
-
+## 기술 스택
+- Javascript
+- Python, Django
+- PostgreSQL
+- Docker, Nginx
+- Amazon S3, Amazon EC2, Amazon RDS
 
 
 ## UI 
@@ -160,7 +41,7 @@ AWS EC2/S3/RDS <br>
 
 ## APPS
 
-`Django APP`으로는 `유저`, `DALLE`, `상품`, `결제`, `챗봇`을 사용하였다.
+`Django APP`으로는 `유저`, `DALLE`, `상품`, `결제`, `ChatGPT`를 사용하였다.
 
 ### DALLE 
 
