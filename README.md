@@ -545,7 +545,7 @@ https://github.com/jschneier/django-storages/issues/782
 
 ![](https://velog.velcdn.com/images/iankimdev/post/c12fa887-1a5d-4200-a683-df4e3b720906/image.png)
 ![](https://velog.velcdn.com/images/iankimdev/post/a4e44afb-ab2e-4661-b410-a5f65db5b924/image.png)
-pre-signed url때문이었다. product객체의 이미지에 같이 붙는 AWS자격증명을 지워주었다.
+It was because of the pre-signed URL. The AWS credentials attached to the image of the product object were deleted.
 
 
 
